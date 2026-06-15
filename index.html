@@ -1,0 +1,1321 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>위진남북조 ~ 원 · 중국통사 학습</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;600;900&family=Noto+Sans+KR:wght@400;500;700&family=Noto+Sans+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    /* 탁본(먹) ↔ 한지(종이) — 청자색을 주조색, 인주(붉은)는 도장에만 */
+    --paper:#EAE0CE; --paper-2:#E1D5BD; --paper-line:#CBBC9E;
+    --ink:#23231F; --ink-2:#46423A; --ink-soft:#6A6457;
+    --rub:#1B1C19;            /* 탁본 먹 배경 */
+    --rub-2:#2A2C27;
+    --celadon:#5C7F70;        /* 청자 — 주조 강조색 */
+    --celadon-lt:#84A395;
+    --celadon-dk:#3D5A4C;
+    --gold:#A98A45;           /* 낙관/금석 */
+    --seal:#B23A2C;           /* 인주 — 도장 전용 */
+    --seal-lt:#CF5A4B;
+    --ok:#4f7d5c; --no:#b04a3e;
+    --r:10px;
+  }
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{
+    margin:0;background:var(--paper);color:var(--ink);
+    font-family:"Noto Sans KR",system-ui,sans-serif;line-height:1.6;
+    background-image:radial-gradient(rgba(120,100,60,.05) 1px,transparent 1px);
+    background-size:18px 18px;
+  }
+  .serif{font-family:"Noto Serif KR",serif}
+  .mono{font-family:"Noto Sans Mono",monospace}
+  a{color:var(--celadon-dk)}
+
+  /* ---------- 헤더 ---------- */
+  header{
+    background:var(--rub);color:var(--paper);
+    border-bottom:3px solid var(--gold);
+    padding:18px 20px 0;position:relative;overflow:hidden;
+  }
+  header .wm{
+    position:absolute;right:-10px;top:-22px;font-family:"Noto Serif KR",serif;
+    font-weight:900;font-size:120px;color:rgba(255,255,255,.045);
+    letter-spacing:-6px;pointer-events:none;white-space:nowrap;
+  }
+  .brand{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+  .seal-logo{
+    width:52px;height:52px;border-radius:8px;background:var(--seal);
+    color:#fff;display:grid;place-items:center;flex:0 0 auto;
+    font-family:"Noto Serif KR",serif;font-weight:900;font-size:13px;line-height:1.05;
+    text-align:center;box-shadow:inset 0 0 0 2px rgba(255,255,255,.35);
+    transform:rotate(-3deg);
+  }
+  .brand h1{margin:0;font-family:"Noto Serif KR",serif;font-weight:900;font-size:1.35rem;letter-spacing:.5px}
+  .brand .sub{margin:2px 0 0;color:var(--celadon-lt);font-size:.82rem;font-weight:500}
+
+  /* 탭 */
+  nav.tabs{display:flex;gap:2px;margin-top:16px;flex-wrap:wrap}
+  nav.tabs button{
+    appearance:none;border:0;cursor:pointer;font-family:inherit;
+    background:transparent;color:var(--celadon-lt);
+    padding:11px 16px 13px;font-size:.92rem;font-weight:700;
+    border-radius:9px 9px 0 0;position:relative;transition:color .15s,background .15s;
+  }
+  nav.tabs button .ko{display:block}
+  nav.tabs button .hz{display:block;font-family:"Noto Serif KR",serif;font-size:.66rem;opacity:.7;font-weight:400}
+  nav.tabs button:hover{color:#fff}
+  nav.tabs button[aria-selected="true"]{background:var(--paper);color:var(--ink)}
+  nav.tabs button[aria-selected="true"] .hz{color:var(--seal);opacity:1}
+
+  main{max-width:1000px;margin:0 auto;padding:26px 18px 80px}
+  .panel{display:none;animation:fade .35s ease}
+  .panel.active{display:block}
+  @keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+
+  h2.sec{font-family:"Noto Serif KR",serif;font-weight:900;font-size:1.5rem;margin:.2em 0 .1em;
+    display:flex;align-items:baseline;gap:10px}
+  h2.sec .hz{font-size:1rem;color:var(--seal)}
+  .lead{color:var(--ink-2);max-width:60ch}
+
+  /* ---------- 개관: 두루마리 연표 ---------- */
+  .scrollwrap{
+    background:var(--rub);border-radius:var(--r);padding:16px 0 8px;margin:18px 0 6px;
+    border:1px solid #000;box-shadow:0 8px 24px rgba(0,0,0,.18);
+  }
+  .scrollwrap .scrollhint{color:var(--celadon-lt);font-size:.72rem;text-align:center;margin:0 0 8px}
+  .handscroll{display:flex;gap:0;overflow-x:auto;padding:6px 16px 14px;scroll-snap-type:x proximity}
+  .handscroll::-webkit-scrollbar{height:8px}
+  .handscroll::-webkit-scrollbar-thumb{background:var(--celadon-dk);border-radius:8px}
+  .dyn{flex:0 0 auto;scroll-snap-align:start;min-width:90px;padding:0 6px;text-align:center;position:relative}
+  .dyn .bar{height:60px;border-radius:6px;display:grid;place-items:center;color:#fff;
+    font-family:"Noto Serif KR",serif;font-weight:900;font-size:1.05rem;
+    border:1px solid rgba(255,255,255,.18);position:relative}
+  .dyn .yr{color:var(--celadon-lt);font-size:.66rem;margin-top:5px;font-family:"Noto Sans Mono",monospace}
+  .dyn .ko{color:var(--paper);font-size:.7rem;margin-top:1px}
+  .era-split{background:linear-gradient(180deg,#6a4f4f,#4a3636)}
+  .era-unify{background:linear-gradient(180deg,var(--celadon),var(--celadon-dk))}
+  .rhythm{display:flex;gap:18px;flex-wrap:wrap;margin:14px 0 0;font-size:.82rem;color:var(--ink-2)}
+  .rhythm b{color:var(--ink)}
+  .chip{display:inline-flex;align-items:center;gap:6px}
+  .swatch{width:13px;height:13px;border-radius:3px;display:inline-block}
+
+  .grid{display:grid;gap:14px;margin-top:18px}
+  @media(min-width:640px){.grid.two{grid-template-columns:1fr 1fr}}
+  .card{background:var(--paper-2);border:1px solid var(--paper-line);border-radius:var(--r);padding:16px 18px;
+    border-left:4px solid var(--celadon)}
+  .card h3{margin:0 0 6px;font-family:"Noto Serif KR",serif;font-size:1.05rem}
+  .card h3 .hz{color:var(--seal);font-size:.85rem;margin-left:6px}
+  .card p{margin:.3em 0;font-size:.92rem;color:var(--ink-2)}
+  .keyq{margin-top:10px;background:rgba(178,58,44,.07);border:1px dashed var(--seal);border-radius:8px;
+    padding:8px 10px;font-size:.84rem}
+  .keyq b{color:var(--seal)}
+
+  /* ---------- 연표(타임라인) ---------- */
+  .filters{display:flex;gap:6px;flex-wrap:wrap;margin:14px 0 20px}
+  .filters button{appearance:none;cursor:pointer;font-family:inherit;font-weight:700;font-size:.8rem;
+    border:1px solid var(--paper-line);background:var(--paper-2);color:var(--ink-2);
+    padding:6px 12px;border-radius:20px;transition:.15s}
+  .filters button[aria-pressed="true"]{background:var(--celadon-dk);color:#fff;border-color:var(--celadon-dk)}
+  .timeline{position:relative;margin-left:8px;padding-left:26px;border-left:2px solid var(--paper-line)}
+  .tl{position:relative;margin:0 0 4px;padding:10px 0}
+  .tl::before{content:"";position:absolute;left:-34px;top:16px;width:13px;height:13px;border-radius:50%;
+    background:var(--paper);border:3px solid var(--celadon)}
+  .tl.u::before{border-color:var(--gold);background:var(--gold)}
+  .tl .yr{font-family:"Noto Sans Mono",monospace;font-weight:500;color:var(--seal);font-size:.85rem}
+  .tl .tt{font-family:"Noto Serif KR",serif;font-weight:600;font-size:1rem}
+  .tl .ds{font-size:.78rem;color:var(--ink-soft)}
+  .tl .dc{display:inline-block;font-size:.66rem;font-weight:700;padding:1px 7px;border-radius:10px;
+    background:var(--paper-2);color:var(--celadon-dk);border:1px solid var(--paper-line);margin-left:6px;vertical-align:1px}
+
+  /* ---------- 학습(아코디언) ---------- */
+  .acc{border:1px solid var(--paper-line);border-radius:var(--r);overflow:hidden;margin-bottom:10px;background:var(--paper-2)}
+  .acc>button{width:100%;text-align:left;appearance:none;border:0;cursor:pointer;background:transparent;
+    font-family:"Noto Serif KR",serif;font-weight:600;font-size:1.05rem;color:var(--ink);
+    padding:14px 16px;display:flex;justify-content:space-between;align-items:center;gap:10px}
+  .acc>button .hz{color:var(--seal);font-size:.8rem;font-weight:400;margin-left:6px}
+  .acc>button .tw{transition:transform .2s;color:var(--celadon)}
+  .acc[open] .tw{transform:rotate(45deg)}
+  .acc .body{padding:2px 18px 16px}
+  .acc .body ul{margin:.2em 0 .6em;padding-left:1.1em}
+  .acc .body li{margin:.28em 0;font-size:.92rem;color:var(--ink-2)}
+  .acc .body li b{color:var(--ink)}
+  .tag{display:inline-block;font-size:.7rem;font-weight:700;background:var(--celadon);color:#fff;
+    padding:1px 8px;border-radius:10px;margin:0 4px 4px 0}
+
+  /* ---------- 퀴즈 ---------- */
+  .quizbar{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin:6px 0 16px}
+  .quizbar .score{font-family:"Noto Sans Mono",monospace;font-weight:500;color:var(--ink-2);font-size:.9rem}
+  .qcard{background:var(--paper-2);border:1px solid var(--paper-line);border-radius:var(--r);
+    padding:18px;margin-bottom:16px;border-top:4px solid var(--celadon)}
+  .qtype{font-size:.7rem;font-weight:700;letter-spacing:1px;color:var(--celadon-dk);text-transform:uppercase}
+  .qtext{font-family:"Noto Serif KR",serif;font-weight:600;font-size:1.08rem;margin:6px 0 12px}
+  .opts{display:grid;gap:8px}
+  .opt{appearance:none;text-align:left;cursor:pointer;font-family:inherit;font-size:.95rem;
+    border:1px solid var(--paper-line);background:var(--paper);color:var(--ink);
+    padding:11px 14px;border-radius:8px;transition:.12s;display:flex;gap:10px;align-items:center}
+  .opt:hover:not(:disabled){border-color:var(--celadon);background:#fff}
+  .opt .num{font-family:"Noto Sans Mono",monospace;color:var(--celadon-dk);font-weight:700;flex:0 0 auto}
+  .opt.correct{background:rgba(79,125,92,.16);border-color:var(--ok);color:#243}
+  .opt.wrong{background:rgba(176,74,62,.14);border-color:var(--no)}
+  .opt:disabled{cursor:default}
+  /* 순서배열 */
+  .order-pool{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:10px}
+  .ord{appearance:none;cursor:pointer;font-family:inherit;font-size:.92rem;font-weight:600;
+    border:1px solid var(--paper-line);background:var(--paper);color:var(--ink);padding:8px 12px;border-radius:8px;
+    display:inline-flex;align-items:center;gap:8px;transition:.12s}
+  .ord:hover:not(:disabled){border-color:var(--celadon)}
+  .ord .seq{width:20px;height:20px;border-radius:50%;background:var(--celadon-dk);color:#fff;
+    display:none;place-items:center;font-size:.72rem;font-family:"Noto Sans Mono",monospace}
+  .ord.picked .seq{display:grid}
+  .ord.picked{border-color:var(--celadon-dk);background:#fff}
+  .ord.ok{border-color:var(--ok);background:rgba(79,125,92,.16)}
+  .ord.ng{border-color:var(--no);background:rgba(176,74,62,.14)}
+  .qfeed{margin-top:12px;font-size:.88rem;padding:10px 12px;border-radius:8px;display:none}
+  .qfeed.show{display:block}
+  .cloze-slot{display:inline-block;min-width:48px;text-align:center;border-bottom:2px dashed var(--celadon-dk);
+    color:var(--celadon-dk);font-weight:700;padding:0 4px;margin:0 2px}
+  .qfeed.good{background:rgba(79,125,92,.12);border:1px solid var(--ok)}
+  .qfeed.bad{background:rgba(176,74,62,.1);border:1px solid var(--no)}
+  .qfeed .stamp{font-family:"Noto Serif KR",serif;font-weight:900;color:var(--seal);
+    border:2px solid var(--seal);border-radius:6px;padding:0 6px;margin-right:8px;transform:rotate(-6deg);display:inline-block}
+  .btn{appearance:none;cursor:pointer;font-family:inherit;font-weight:700;font-size:.88rem;
+    border:0;border-radius:8px;padding:9px 16px;transition:.15s}
+  .btn.prim{background:var(--celadon-dk);color:#fff}
+  .btn.prim:hover{background:var(--celadon)}
+  .btn.ghost{background:transparent;color:var(--ink-2);border:1px solid var(--paper-line)}
+  .qctrl{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}
+  .result{text-align:center;padding:30px 16px}
+  .result .big{font-family:"Noto Serif KR",serif;font-weight:900;font-size:3rem;color:var(--celadon-dk)}
+  .result .seal-big{display:inline-grid;place-items:center;width:90px;height:90px;border-radius:12px;
+    background:var(--seal);color:#fff;font-family:"Noto Serif KR",serif;font-weight:900;font-size:2.4rem;
+    margin:0 auto 14px;box-shadow:inset 0 0 0 3px rgba(255,255,255,.35);transform:rotate(-4deg)}
+
+  /* ---------- 플래시카드 ---------- */
+  .flashbar{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin:6px 0 16px}
+  .flash{perspective:1200px;margin:0 auto;max-width:520px}
+  .flip{position:relative;width:100%;min-height:230px;cursor:pointer;transition:transform .5s;transform-style:preserve-3d}
+  .flip.flipped{transform:rotateY(180deg)}
+  .face{position:absolute;inset:0;backface-visibility:hidden;border-radius:14px;padding:24px;
+    display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center}
+  .face.front{background:var(--rub);color:var(--paper);border:1px solid #000}
+  .face.front .hz{font-family:"Noto Serif KR",serif;font-weight:900;font-size:2.6rem;letter-spacing:2px}
+  .face.front .ko{color:var(--celadon-lt);margin-top:8px;font-size:1.05rem;font-weight:700}
+  .face.front .tap{position:absolute;bottom:12px;color:rgba(255,255,255,.35);font-size:.72rem}
+  .face.back{background:var(--paper-2);color:var(--ink);border:1px solid var(--paper-line);transform:rotateY(180deg)}
+  .face.back .ko{font-family:"Noto Serif KR",serif;font-weight:700;font-size:1.1rem;margin-bottom:6px}
+  .face.back .def{font-size:.95rem;color:var(--ink-2);max-width:38ch}
+  .face.back .era{margin-top:10px;font-size:.72rem;font-weight:700;color:var(--celadon-dk);
+    background:var(--paper);border:1px solid var(--paper-line);padding:2px 10px;border-radius:10px}
+  .flashctrl{display:flex;justify-content:center;align-items:center;gap:10px;margin-top:16px}
+  .flashctrl .count{font-family:"Noto Sans Mono",monospace;color:var(--ink-2);font-size:.85rem;min-width:64px;text-align:center}
+
+  footer{text-align:center;color:var(--ink-soft);font-size:.74rem;padding:24px 16px 40px}
+  @media (prefers-reduced-motion: reduce){
+    *{animation:none!important;transition:none!important}
+    .flip{transition:none}
+  }
+  :focus-visible{outline:3px solid var(--gold);outline-offset:2px;border-radius:6px}
+</style>
+</head>
+<body>
+<header>
+  <div class="wm">魏晉南北朝隋唐宋元</div>
+  <div class="brand">
+    <div class="seal-logo">中國<br>通史</div>
+    <div>
+      <h1>위진남북조 → 원</h1>
+      <p class="sub">魏晉南北朝 · 隋唐 · 唐宋變革 · 宋 · 元 — 기말 대비 통합 학습</p>
+    </div>
+  </div>
+  <nav class="tabs" role="tablist" aria-label="학습 모드">
+    <button role="tab" aria-selected="true" data-tab="home"><span class="ko">개관</span><span class="hz">槪觀</span></button>
+    <button role="tab" aria-selected="false" data-tab="time"><span class="ko">연표</span><span class="hz">年表</span></button>
+    <button role="tab" aria-selected="false" data-tab="study"><span class="ko">학습</span><span class="hz">學習</span></button>
+    <button role="tab" aria-selected="false" data-tab="quiz"><span class="ko">퀴즈</span><span class="hz">問題</span></button>
+    <button role="tab" aria-selected="false" data-tab="exam"><span class="ko">예상문제</span><span class="hz">豫想</span></button>
+    <button role="tab" aria-selected="false" data-tab="past"><span class="ko">기출답안</span><span class="hz">旣出</span></button>
+    <button role="tab" aria-selected="false" data-tab="flash"><span class="ko">카드</span><span class="hz">卡片</span></button>
+  </nav>
+</header>
+
+<main>
+  <!-- ========== 개관 ========== -->
+  <section class="panel active" id="home" role="tabpanel">
+    <h2 class="sec serif">한눈에 보는 흐름 <span class="hz">大勢</span></h2>
+    <p class="lead">후한 멸망(220)부터 원 멸망(1368)까지 약 1,100년. 핵심은 <b>“쪼개졌다 합쳐졌다를 반복하다가, 북방 유목민이 점점 밀고 내려와 결국 전체를 차지하는”</b> 이야기입니다.</p>
+
+    <div class="scrollwrap">
+      <p class="scrollhint">← 가로로 밀어 보세요 · 붉은 계열 = 분열기, 청자색 = 통일기 →</p>
+      <div class="handscroll" id="handscroll"></div>
+    </div>
+    <div class="rhythm">
+      <span class="chip"><span class="swatch" style="background:#5a4040"></span> <b>분열기</b> — 삼국·위진남북조·오대</span>
+      <span class="chip"><span class="swatch" style="background:var(--celadon)"></span> <b>통일기</b> — 서진·수·당·송·원</span>
+    </div>
+
+    <div class="grid two">
+      <div class="card">
+        <h3>관통 주제 <span class="hz">胡漢融合</span></h3>
+        <p>흉노→선비→돌궐→거란→여진→몽골. 북방 유목민이 파도처럼 남하하며 <b>처음엔 장성 밖 → 화북 차지(북위·요·금) → 마침내 전체 차지(원)</b>.</p>
+        <p>그래서 이 시대의 진짜 주제는 “한족과 유목민이 싸우고 또 섞이는 과정”입니다.</p>
+      </div>
+      <div class="card">
+        <h3>강의 구조 <span class="hz">本論</span></h3>
+        <p><b>2-4</b> 북방민족의 이동과 남북조시대</p>
+        <p><b>2-5</b> 수·당 통일과 동아시아세계</p>
+        <p><b>2-6</b> 당송변혁의 추이 (+ 송·원으로 연장)</p>
+        <p>각 단원이 같은 틀: <b>개관(연표·지도·사람)</b> → <b>절별 내용(핵심 문제)</b> → <b>중국사에서 갖는 의미</b>.</p>
+      </div>
+    </div>
+
+    <div class="card" style="margin-top:14px;border-left-color:var(--gold)">
+      <h3>채점 포인트 <span class="hz">採點</span></h3>
+      <p>· <b>공존 ↔ 계승</b> 구별 (동진·북위는 공존 / 북송→남송은 계승).</p>
+      <p>· <b>침투왕조</b>(북위, 서서히 동화) ↔ <b>정복왕조</b>(요·금·원·청, 갑자기 정복) 구분.</p>
+      <p>· <b>역사지도 세기 판별</b>: ①남북 분단 ②요·서하·금 존속 ③몽골 등장 — 세 축으로 좁힌다.</p>
+      <p>· 한자는 <b>정자(正字)</b>로 — 간체자 불가. 카드 탭에서 한자 집중 연습.</p>
+    </div>
+  </section>
+
+  <!-- ========== 연표 ========== -->
+  <section class="panel" id="time" role="tabpanel">
+    <h2 class="sec serif">연표 <span class="hz">年表</span></h2>
+    <p class="lead">금색 점 = 통일·왕조 성립 같은 큰 매듭. 단원 버튼으로 걸러서 보세요.</p>
+    <div class="filters" id="tlfilters"></div>
+    <div class="timeline" id="timeline"></div>
+  </section>
+
+  <!-- ========== 학습 ========== -->
+  <section class="panel" id="study" role="tabpanel">
+    <h2 class="sec serif">단원별 학습 <span class="hz">學習</span></h2>
+    <p class="lead">제목을 눌러 펼치세요. 빨간 박스는 강의에서 강조한 <b>핵심 문제</b>입니다.</p>
+    <div id="studyArea"></div>
+  </section>
+
+  <!-- ========== 퀴즈 ========== -->
+  <section class="panel" id="quiz" role="tabpanel">
+    <h2 class="sec serif">퀴즈 <span class="hz">問題</span></h2>
+    <div class="quizbar">
+      <span class="score" id="qScore">문항 0 / 0 · 정답 0</span>
+      <button class="btn ghost" id="qRestart">다시 풀기</button>
+    </div>
+    <div id="quizArea"></div>
+  </section>
+
+  <!-- ========== 예상문제(기출형) ========== -->
+  <section class="panel" id="exam" role="tabpanel">
+    <h2 class="sec serif">예상 문제 <span class="hz">豫想</span></h2>
+    <p class="lead">기출 형식 그대로의 서술형 예상 문제입니다. 먼저 스스로 답을 써 본 뒤 <b>모범답안 보기</b>를 누르세요. 한자는 정자(正字)로.</p>
+    <div id="examArea"></div>
+  </section>
+
+  <!-- ========== 기출답안 ========== -->
+  <section class="panel" id="past" role="tabpanel">
+    <h2 class="sec serif">기출 답안 <span class="hz">旣出</span></h2>
+    <p class="lead">실제 기출문제(촬영본)의 모범답안입니다. 먼저 풀어 본 뒤 <b>답안 보기</b>를 누르세요. ‘본인 보고서’ 문항은 개인 답안이라 제외했습니다.</p>
+    <div id="pastArea"></div>
+  </section>
+
+  <!-- ========== 플래시카드 ========== -->
+  <section class="panel" id="flash" role="tabpanel">
+    <h2 class="sec serif">한자 카드 <span class="hz">卡片</span></h2>
+    <div class="flashbar">
+      <p class="lead" style="margin:0">카드를 눌러 뒤집기 · 한자(앞) → 뜻(뒤). 정자 쓰기 연습용.</p>
+      <button class="btn ghost" id="fShuffle">섞기</button>
+    </div>
+    <div class="flash">
+      <div class="flip" id="flip">
+        <div class="face front"><div class="hz" id="fHz"></div><div class="ko" id="fKo"></div><div class="tap">눌러서 뒤집기</div></div>
+        <div class="face back"><div class="ko" id="bKo"></div><div class="def" id="bDef"></div><div class="era" id="bEra"></div></div>
+      </div>
+    </div>
+    <div class="flashctrl">
+      <button class="btn ghost" id="fPrev">← 이전</button>
+      <span class="count" id="fCount">1 / 1</span>
+      <button class="btn prim" id="fNext">다음 →</button>
+    </div>
+  </section>
+</main>
+
+<footer>중국통사 학습 도구 · 위진남북조~원 · 교재·강의 슬라이드 기반 정리 (검증되지 않은 추정은 배제)</footer>
+
+<script>
+/* =================== 데이터 =================== */
+const DYN = [
+  {hz:"三國",ko:"삼국",yr:"220–265",t:"split"},
+  {hz:"西晉",ko:"서진",yr:"265–316",t:"unify"},
+  {hz:"五胡\n東晉",ko:"오호·동진",yr:"317–420",t:"split"},
+  {hz:"南北朝",ko:"남북조",yr:"420–589",t:"split"},
+  {hz:"隋",ko:"수",yr:"581–618",t:"unify"},
+  {hz:"唐",ko:"당",yr:"618–907",t:"unify"},
+  {hz:"五代\n十國",ko:"오대십국",yr:"907–960",t:"split"},
+  {hz:"北宋",ko:"북송",yr:"960–1127",t:"unify"},
+  {hz:"南宋\n金",ko:"남송·금",yr:"1127–1234",t:"split"},
+  {hz:"元",ko:"원",yr:"1271–1368",t:"unify"},
+];
+
+const UNITS = ["전체","위진남북조","수·당","당송변혁","송","정복왕조·원"];
+const TL = [
+  {y:"184",t:"황건의 난",d:"후한 붕괴의 신호탄, 군벌 할거 시작",u:"위진남북조"},
+  {y:"200",t:"관도대전",d:"조조가 원소 격파 → 화북 장악",u:"위진남북조"},
+  {y:"208",t:"적벽대전",d:"조조 패배 → 위·촉·오 정립",u:"위진남북조"},
+  {y:"220",t:"후한 멸망·조위 건국",d:"구품관인법 시행(진군 건의)",u:"위진남북조",big:1},
+  {y:"265",t:"서진 건국",d:"사마염(무제)",u:"위진남북조",big:1},
+  {y:"280",t:"오 멸망 — 서진 통일",d:"점전제·과전제·호조식",u:"위진남북조",big:1},
+  {y:"291–306",t:"8왕의 난",d:"봉건제 부활의 후유증, 유목민 사병화",u:"위진남북조"},
+  {y:"304·308",t:"유연의 한(漢)",d:"오호십육국 시대 개막",u:"위진남북조"},
+  {y:"316",t:"서진 멸망",d:"분열로 회귀",u:"위진남북조"},
+  {y:"317",t:"동진 건국",d:"사마예(원제)+왕도, 수도 건강",u:"위진남북조",big:1},
+  {y:"376",t:"전진, 화북 통일",d:"부견 — 오호시대 최대 안정",u:"위진남북조"},
+  {y:"383",t:"비수의 전투",d:"전진 패배 → 화북 재분열",u:"위진남북조"},
+  {y:"386",t:"북위 건국",d:"탁발규(도무제), 398 평성 천도",u:"위진남북조",big:1},
+  {y:"420",t:"동진 멸망 → (유)송",d:"남조 시작",u:"위진남북조"},
+  {y:"439",t:"북위, 화북 통일",d:"태무제 — 남북조 본격화",u:"위진남북조",big:1},
+  {y:"485",t:"균전제 시행",d:"효문제 — 삼장제·봉록제와 함께",u:"위진남북조"},
+  {y:"494·495",t:"낙양 천도·한화정책",d:"성씨(탁발→元)·복식·언어 한화",u:"위진남북조"},
+  {y:"524",t:"육진의 난",d:"한화 반발 → 북위 분열의 씨앗",u:"위진남북조"},
+  {y:"534·535",t:"동위·서위 분열",d:"고환 vs 우문태",u:"위진남북조"},
+  {y:"548",t:"후경의 난",d:"남조 양 무제 말년, 귀족문화 붕괴",u:"위진남북조"},
+  {y:"577",t:"북주, 북제 정복",d:"부병제·관롱집단 → 수·당으로",u:"위진남북조",big:1},
+  {y:"581",t:"수 건국",d:"양견(문제) — 관롱집단 출신",u:"수·당",big:1},
+  {y:"587",t:"과거제 창설",d:"1905년까지 지속될 관리선발",u:"수·당",big:1},
+  {y:"589",t:"진 멸망 — 수의 통일",d:"제2차 통일제국",u:"수·당",big:1},
+  {y:"605–610",t:"대운하 완성",d:"양제 — 화북·강남 연결",u:"수·당"},
+  {y:"612",t:"고구려 1차 원정 실패",d:"살수대첩, 천하대란의 도화선",u:"수·당"},
+  {y:"618",t:"수 멸망 → 당 건국",d:"이연(고조), 태원 거병",u:"수·당",big:1},
+  {y:"626",t:"현무문의 변",d:"이세민(태종) 즉위",u:"수·당"},
+  {y:"627–649",t:"정관의 치",d:"정관정요 — 통일제국 정착",u:"수·당"},
+  {y:"630",t:"동돌궐 멸망",d:"태종, 천가한(天可汗) 칭호",u:"수·당"},
+  {y:"690",t:"무주혁명",d:"측천무후 — 신흥 과거관료 기반",u:"수·당",big:1},
+  {y:"712–756",t:"현종·개원의 치",d:"전성기, 그러나 말년에 몰락",u:"수·당"},
+  {y:"755–763",t:"안사의 난",d:"율령제 붕괴 — 당송변혁의 출발점",u:"당송변혁",big:1},
+  {y:"780",t:"양세법 시행",d:"양염 — 재산 기준, 여름·가을 2회",u:"당송변혁"},
+  {y:"835",t:"감로의 변",d:"환관의 황제 옹립·살해 강화",u:"당송변혁"},
+  {y:"874–884",t:"황소의 난",d:"왕선지·황소 — 재정기반 와해",u:"당송변혁"},
+  {y:"907",t:"당 멸망 → 후량",d:"주전충, 오대십국 시작",u:"당송변혁",big:1},
+  {y:"916",t:"요(거란) 건국",d:"야율아보기, 926 발해 멸망",u:"정복왕조·원",big:1},
+  {y:"960",t:"북송 건국",d:"조광윤(태조) — 문신관료제",u:"송",big:1},
+  {y:"1004",t:"전연의 맹약",d:"송→요 비단20만·은10만(세폐)",u:"송"},
+  {y:"1038·1039",t:"서하 건국",d:"탕구트 이원호, 서하문자",u:"송"},
+  {y:"1069",t:"왕안석 신법",d:"재정·군사 위기 극복 시도",u:"송"},
+  {y:"1084",t:"자치통감 완성",d:"사마광(구법당) 편년체 통사",u:"송"},
+  {y:"1115",t:"금(여진) 건국",d:"아구타 — 맹안·모극제",u:"정복왕조·원",big:1},
+  {y:"1125",t:"요 멸망",d:"야율대석 → 서요(카라키타이)",u:"정복왕조·원"},
+  {y:"1126·1127",t:"정강의 변 — 북송 멸망",d:"휘종·흠종 포로 / 남송 건국(임안)",u:"송",big:1},
+  {y:"1142",t:"송·금 화의",d:"송 신하의 예, 은25만·비단25만",u:"송"},
+  {y:"1206",t:"칭기즈칸 즉위",d:"쿠릴타이 — 몽골 통일",u:"정복왕조·원",big:1},
+  {y:"1234",t:"금 멸망",d:"오고타이칸 — 화북 차지",u:"정복왕조·원"},
+  {y:"1271",t:"원 건국",d:"쿠빌라이, 국호 大元",u:"정복왕조·원",big:1},
+  {y:"1279",t:"남송 멸망",d:"사상 첫 전 영토 정복왕조 지배",u:"정복왕조·원",big:1},
+  {y:"1281",t:"수시력 제정",d:"곽수경 — 이슬람 천문학 종합",u:"정복왕조·원"},
+  {y:"1351",t:"홍건군 봉기",d:"백련교 — 주원장 등장",u:"정복왕조·원"},
+];
+
+const STUDY = [
+ {hz:"魏晉南北朝", ko:"2-4 · 위진남북조", q:"분열과 재통일 / 화북 호족정권 ↔ 강남 한족정권",
+  blocks:[
+   {h:"삼국·서진 — 분열과 재통일", li:[
+     "삼국 국력비 <b>위:오:촉 = 6:2:1</b>(위 우위). 관도(200)→적벽(208).",
+     "위의 제도: <b>병호제</b>(세습 병역), <b>둔전제</b>(유민·황폐지 활용, 수확 50~60% 납부), <b>능력 위주 인재 등용</b>.",
+     "서진(265 위 계승, 280 오 정복): <b>점전제·과전제</b>(전토 상한·하한), <b>호조식</b>(호마다 같은 세금) — 제민지배 시도.",
+     "30년 만의 짧은 통일. 한계: 사마씨의 <b>호족적 성격(분봉)</b> → <b>8왕의 난</b> → 유목민 사병화 → 오호16국."
+   ]},
+   {h:"오호16국·동진·남조", li:[
+     "<b>유연의 한(304/308)</b>으로 시작, 5호(흉노·선비·저·갈·강)의 18국 22정권.",
+     "<b>376 전진 부견 화북 통일 → 383 비수의 전투 패배</b> → 회수 경계 남북 대치.",
+     "호족정권: 무력 의존·부락제·계승제 미비로 <b>대개 단명</b>. ‘호·한 융합’ 원동력=사민정책·계구수전.",
+     "강남: 동진→송·제·양·진(<b>육조</b>, 수도 건강). 정치적 약체·문화적 융성. <b>후경의 난</b>으로 남조 종언."
+   ]},
+   {h:"북조(북위)와 호·한체제", li:[
+     "선비 탁발부 → <b>탁발규(386) 건국, 태무제(439) 화북 통일</b>.",
+     "<b>효문제 한화정책</b>: 균전제·삼장제·성족상정, <b>낙양 천도(495)</b>, 성씨 한화(탁발→元).",
+     "반발: 육진의 난(524)→하음의 변(528)→<b>동위·서위 분열</b>→북제·북주.",
+     "서위·북주의 <b>부병제</b>와 <b>관롱집단</b>(호족 색채 신귀족) → 수·당 황실로 계승.",
+     "특징: 5호 여러 나라와 달리 <b>호·한 갈등 해소 + 중국식 중앙집권 지향</b>."
+   ]},
+   {h:"사상·문화 / 역사적 의미", li:[
+     "남(화려한 귀족문화: 현학·청담) ↔ 북(질박·고풍). 육조문화 = 중국 특유의 예술·학문.",
+     "‘사(士)와 서(庶)의 차이는 나라의 큰 법칙’ — <b>문벌귀족(사족)이 황제권에 도전</b>.",
+     "북조의 <b>역동성</b>(호한 융합→수당제국) ↔ 남조의 <b>자율적 문화</b>(왕희지·도연명·고개지)."
+   ]}
+  ]},
+ {hz:"隋唐", ko:"2-5 · 수·당과 동아시아세계", q:"통일제국의 재건 / 율령제의 성격과 동아시아세계",
+  blocks:[
+   {h:"수의 통일과 집권화", li:[
+     "양견(문제)=관롱집단 출신. <b>589 진 정복으로 통일</b>, 개황율령(583).",
+     "<b>3성6부제, 군 폐지(주·현), 과거제(587), 부병제</b>. 호구 410만→900만으로 회복.",
+     "양제: <b>대운하</b>(화북·강남 연결=진정한 통일) / 고구려 침공 전후 <b>천하대란</b>.",
+     "국제관계: 책봉(冊封)=신하 칭함·조공·정삭 받음. 돌궐(552 자립→당 태종 때 630 멸망)·고구려."
+   ]},
+   {h:"당의 건국과 발전", li:[
+     "황실도 관롱집단(이연과 수 양제는 이종사촌). 고조 태원 거병 → <b>현무문의 변(626)</b>.",
+     "태종 <b>정관의 치</b>, 돌궐 제압 후 <b>천가한</b>. <b>무측천=무주혁명(690)</b> — 비문벌·과거 신흥관료 부상.",
+     "현종 <b>개원의 치</b> → 천보 말 최고 호구 → <b>안사의 난으로 급락</b>."
+   ]},
+   {h:"율령제와 국가체제", li:[
+     "<b>율(형법)·령(행정)·격(보완)·식(세칙)</b>. 서진 태시율령(268)→수·당 완비(당률소의).",
+     "3성: 중서성(기초)→문하성(봉박권)→상서성(집행, 6부). 지방 현-주-도.",
+     "<b>균전제</b>(정남 구분전80무+영업전20무), <b>조용조</b>(조=속2석, 조=견2장+면3냥, 용=20일/대납), <b>부병제</b>(병농일치).",
+     "<b>양천제</b>(양인=제민 ↔ 천인)."
+   ]},
+   {h:"동아시아세계 / 의미", li:[
+     "<b>동아시아 문화권 4대 요소: 유교·불교·한자·율령제.</b>",
+     "율령 전파: 고구려(373)·백제(520)·신라(654)·일본(701·757)·베트남(11세기~).",
+     "제1차(진·한) ↔ 제2차(수·당) 통일제국: 제민지배는 유사(=고대), <b>호족→귀족 성장</b>으로 사회 변화(=중세).",
+     "분명한 것: <b>호족(胡族)의 영향</b> → 수·당 황실·사회의 개방·팽창."
+   ]}
+  ]},
+ {hz:"唐宋變革", ko:"2-6 · 당송변혁의 추이", q:"율령제와 판이하게 달라진 새 양상 — 거대한 변화의 출발점",
+  blocks:[
+   {h:"당송변혁론", li:[
+     "<b>나이토 고난</b>: 8세기 후반~10세기는 중요한 획기. (1)귀족→사대부 (2)군주독재 (3)과거 중시 (4)서민 지위 강화 (5)실물→화폐경제 (6)장원·지주-전호 관계.",
+     "시대구분 논쟁: ‘중세→근세’ 또는 ‘고대→중세’?"
+   ]},
+   {h:"안사의 난 — 변혁의 출발점", li:[
+     "<b>소그드 혼혈 안녹산</b>(절도사)이 양국충과 다툼 끝 반란 → 화북 초토화.",
+     "배경: 성당의 개방적 분위기. 결과: 절도사 확대 + 호수 격감 → <b>율령제 지배 완전 종언</b>."
+   ]},
+   {h:"지배구조의 변화 — 번진·양세법", li:[
+     "<b>번진체제</b>: 절도사(군사+민정+재정). 반측지지(화북) ↔ 순지(강회·강남).",
+     "<b>양세법(780)</b>: 단세화, 여름·가을 2회, <b>호의 자산 기준</b>, 양출제입, <b>전액전납(화폐 납세)</b>, 거주지 등록.",
+     "전매제(소금·차) → 염상 출현, 농민 부담 가중."
+   ]},
+   {h:"당의 멸망", li:[
+     "<b>우이당쟁</b>(과거 신흥지주 vs 귀족관료, 진사과 우당 승리) + <b>환관의 발호</b>(신책금군 장악).",
+     "강남 반란 지속 → <b>황소의 난(874~884)</b> → 재정기반 와해 → <b>907 당 멸망</b>(주전충)."
+   ]},
+   {h:"당·송 간 사회변화", li:[
+     "<b>경제 중심 강남 이동</b>(‘소호숙 천하족’). 모내기·시비기술 발전.",
+     "상업·도시 발달: 행·작, 시박사(광주·천주), 지폐(교자·회자). 서민문화(와자·구란, 동경몽화록)."
+   ]}
+  ]},
+ {hz:"宋", ko:"송 · 문신관료제와 대외관계", q:"황제독재 + 집권적 문신관료제 / 군사 약체와 정복왕조",
+  blocks:[
+   {h:"건국과 문치주의", li:[
+     "조광윤(태조): 절도사 병권·재정권·민정권 회수, <b>금군 단일화</b>, 문신 위주.",
+     "과거 <b>전시 정착</b>(황제 문하생화)·호명법·등록법. 사대부가 새 지배층, 성리학이 이념."
+   ]},
+   {h:"대외관계 — 요·서하·금", li:[
+     "<b>전연의 맹약(1004)</b>: 송→요 비단20만 필·은10만 냥(세폐).",
+     "서하(1039 이원호)와 화약(1044): 은5만·비단13만·차2만근.",
+     "금(여진, 1115 아구타)과 연합해 요 협공 → 요 멸망(1125)."
+   ]},
+   {h:"신법과 북송 멸망", li:[
+     "<b>왕안석 신법</b>: 재정적자·군사비(지출 70~80%) 배경. 강병책(보갑·보마·장병)·관료개혁(청묘·삼사).",
+     "신구당쟁(사마광 구법당). <b>정강의 변(1126)</b>으로 북송 멸망 → <b>남송</b>(고종, 임안)."
+   ]},
+   {h:"남송·경제·문화", li:[
+     "악비 항전·진회 화의(1142, 은25만·비단25만). 영토는 3/5이나 강남 개발로 생산력 능가.",
+     "<b>인쇄술·나침반·화약</b>, <b>주자학(주희)</b>. 권신 전횡 끝 1279 몽골에 멸망."
+   ]}
+  ]},
+ {hz:"征服王朝·元", ko:"정복왕조·원", q:"정복왕조론(이중·이원성) / 몽골의 전 중국 지배",
+  blocks:[
+   {h:"정복왕조론", li:[
+     "<b>비트포겔</b>: 정복왕조(요·금·원·청) ↔ 침투왕조(북위 등).",
+     "이중·이원성: 거란문자·여진문자·파스파문자, <b>요의 북면관·남면관</b>, 금의 맹안·모극."
+   ]},
+   {h:"요·금", li:[
+     "요(야율아보기 916): 북면관(유목)·남면관(농경) 이중체제.",
+     "금: 회종 한화·여진 화북 이주, 해릉왕 남진(채석 전투, 첫 화포), 세종(명군, 40년 안정)."
+   ]},
+   {h:"몽골·원", li:[
+     "칭기즈칸(1206)→오고타이(금 멸망 1234)→<b>쿠빌라이(1271 大元, 1279 남송 멸망)</b>.",
+     "<b>4등급제</b>: 몽골>색목인>한인>남인. 과거 폐지·약화, 색목인 재정 등용, <b>행성제</b>(현 省의 기원).",
+     "동서교류: 역참·수시력·회회포 / 나침반·인쇄술·제지술 서전. <b>홍건군(1351)</b>으로 쇠퇴."
+   ]}
+  ]}
+];
+
+const QUIZ = [
+ {type:"order", q:"다음 왕조를 성립 시기가 빠른 순서대로 클릭하시오.",
+  items:["촉한","서진","동진","전진","북위","진(陳)","북송","남송"],
+  answer:["촉한","서진","동진","전진","북위","진(陳)","북송","남송"],
+  fb:"촉한(221)·서진(265)·동진(317)·전진(351)·북위(386)·진(557)·북송(960)·남송(1127)."},
+ {type:"order", q:"다음 종족을 중국사에서 두드러진 활약 시기가 이른 순서대로 클릭하시오.",
+  items:["거란","흉노","돌궐","선비","유연","여진","몽골"],
+  answer:["흉노","선비","유연","돌궐","거란","여진","몽골"],
+  fb:"흉노(진한)→선비(북위)→유연(5세기)→돌궐(552~)→거란(요 916)→여진(금 1115)→몽골(13세기)."},
+ {type:"order", q:"다음 사실을 발생 순서대로 클릭하시오.",
+  items:["효문제 한화정책","둔전제 실시","대운하 완성","수시력 제정","양세법 시행","정관의 치"],
+  answer:["둔전제 실시","효문제 한화정책","대운하 완성","정관의 치","양세법 시행","수시력 제정"],
+  fb:"둔전제(2C말)→효문제 한화(485)→대운하(610)→정관의 치(627)→양세법(780)→수시력(1281)."},
+ {type:"mc", q:"안사의 난(755~763)이 갖는 가장 큰 역사적 의미는?",
+  opts:["서진의 봉건제를 부활시켰다","기존 율령제 지배를 완전히 종언시켰다","과거제를 처음 창설했다","대운하를 완성시켰다"],
+  answer:1, fb:"부병제·균전제·조용조가 무너져 율령제가 종언 — 당송변혁의 출발점."},
+ {type:"mc", q:"전연의 맹약(1004)으로 송이 요에 매년 지급한 것은?",
+  opts:["은 25만 냥·비단 25만 필","비단 20만 필·은 10만 냥","은 5만 냥·차 2만 근","금 10만 냥"],
+  answer:1, fb:"송→요 비단 20만 필·은 10만 냥(세폐). 은25만·비단25만은 1142 송·금 화의."},
+ {type:"mc", q:"효문제 한화정책에 해당하지 않는 것은?",
+  opts:["낙양 천도","성씨 한화(탁발→元)","균전제 시행","과거제 창설"],
+  answer:3, fb:"과거제 창설은 수 문제(587). 효문제는 한화·균전제·삼장제."},
+ {type:"mc", q:"원의 신분제 4등급을 높은 순서대로 바르게 나열한 것은?",
+  opts:["한족>몽골>색목인>남인","몽골>색목인>한인>남인","색목인>몽골>한인>남인","몽골>한인>색목인>남인"],
+  answer:1, fb:"몽골 > 색목인(서역인) > 한인(옛 금 치하) > 남인(남송 치하, 최다·최하 차별)."},
+ {type:"mc", q:"‘당송변혁론’을 주장한 일본 학자는?",
+  opts:["나이토 고난(內藤湖南)","비트포겔","사마광","미야자키 이치사다"],
+  answer:0, fb:"나이토 고난: 8C 후반~10C를 귀족→사대부, 군주독재로의 획기로 봄."},
+ {type:"mc", q:"양세법(780)의 특징으로 옳은 것은?",
+  opts:["인두세 중심","여름·가을 2회, 호의 자산 기준 징수","토지를 균등 분배","현물(곡물)로만 납부"],
+  answer:1, fb:"재산(자산) 기준·여름가을 2회·전액전납(화폐) → 후대 세제 기초."},
+ {type:"ox", q:"북위는 ‘정복왕조’, 원은 ‘침투왕조’로 분류된다.",
+  answer:false, fb:"반대. 북위=침투왕조(서서히 동화), 원=정복왕조(요·금·원·청)."},
+ {type:"ox", q:"동아시아 문화권의 4대 기본요소는 유교·불교·한자·율령제이다.",
+  answer:true, fb:"맞다. 수·당대에 한반도·일본·베트남으로 전파."},
+ {type:"ox", q:"북송과 남송은 일정 기간 공존한 왕조이다.",
+  answer:false, fb:"공존이 아니라 계승. 정강의 변(1126)으로 북송이 망한 뒤 남송이 이어짐."},
+ {type:"match", q:"다음 서적이 편찬된 왕조를 고르시오.",
+  pairs:[
+   {book:"대당서역기 (현장)", dyn:"당"},
+   {book:"자치통감 (사마광)", dyn:"북송"},
+   {book:"근사록 (주희)", dyn:"남송"},
+   {book:"수시력 (곽수경)", dyn:"원"}
+  ], dyns:["당","북송","남송","원"],
+  fb:"대당서역기=당, 자치통감=북송, 근사록=남송, 수시력=원."},
+ {type:"mc", map:"p13e", q:"다음 지도가 몇 세기의 것인지 고르시오. 〔화북=금 / 강남=남송 / 서북=서하 / 몽골고원=몽골 등장〕",
+  opts:["11세기","12세기 전반","13세기 초","13세기 말"],
+  answer:2, fb:"금·남송 병존(1127 이후)+서하 존속(~1227)+몽골 등장(1206 이후)=13세기 초."},
+
+ /* ---- 개념 확인 추가 ---- */
+ {type:"mc", q:"삼국시대 위·오·촉의 국력비로 옳은 것은?",
+  opts:["1:2:6","6:2:1","3:3:1","2:1:1"],
+  answer:1, fb:"위:오:촉 = 6:2:1. 중원을 차지한 위가 절대 우위."},
+ {type:"mc", q:"수 문제가 587년에 처음 만든, 1905년까지 이어진 제도는?",
+  opts:["균전제","부병제","과거제","삼성육부제"],
+  answer:2, fb:"과거제(科擧制). 시험으로 관리를 선발 — 중국 관료선발의 기원."},
+ {type:"mc", q:"문하성(門下省)이 가진, 황제의 조칙을 심의·반환하는 권한은?",
+  opts:["봉박권(封駁權)","입법권","감찰권","전매권"],
+  answer:0, fb:"봉박권. 3성: 중서성(기초)→문하성(심의·봉박)→상서성(집행)."},
+ {type:"mc", q:"‘정복왕조(요·금·원·청)’ 개념을 제시한 학자는?",
+  opts:["나이토 고난","비트포겔","사마광","마르코 폴로"],
+  answer:1, fb:"비트포겔(K. Wittfogel). 침투왕조(북위 등)와 구분."},
+ {type:"mc", q:"북위 효문제가 단행한 한화정책에 해당하는 것은?",
+  opts:["대운하 건설","과거제 창설","낙양 천도와 성씨 한화","양세법 시행"],
+  answer:2, fb:"낙양 천도(495)+성씨 한화(탁발→元)+균전제·삼장제."},
+ {type:"mc", q:"당 태종이 돌궐을 제압한 뒤 받은 칭호는?",
+  opts:["천가한(天可汗)","황제","선우","칸"],
+  answer:0, fb:"천가한(텡그리 카간). 630년 동돌궐 멸망 후."},
+ {type:"ox", q:"균전제는 국가가 농민에게 토지를 나눠 주고, 양세법은 재산을 기준으로 세금을 매긴다.",
+  answer:true, fb:"맞다. 균전제=토지 분배(당 전기), 양세법=재산 기준(당 후기, 안사의 난 후)."},
+ {type:"ox", q:"요(거란)는 유목민과 농경민을 북면관·남면관으로 나눠 다스리는 이중체제를 운영했다.",
+  answer:true, fb:"맞다. 북면관=유목, 남면관=농경. 정복왕조의 이원성."},
+ {type:"ox", q:"성리학(주자학)을 집대성한 인물은 남송의 주희이다.",
+  answer:true, fb:"맞다. 북송오자(주돈이·정호·정이·장재·소옹)를 거쳐 남송 주희가 대성."},
+
+ /* ---- 빈칸 채우기(흐름 이해) ---- */
+ {type:"cloze", q:"위진남북조 — 호한 융합의 흐름",
+  text:"서진의 ▢①▢ 이후 유목민이 사병화하면서 화북에 오호십육국이 들어섰고, 전진 부견은 ▢②▢ 패배로 통일에 실패했다. 이후 선비족이 세운 ▢③▢ 의 효문제가 낙양 천도와 한화정책을 폈다.",
+  blanks:[
+   {opts:["8왕의 난","적벽대전","현무문의 변"],a:0},
+   {opts:["관도대전","비수의 전투","살수대첩"],a:1},
+   {opts:["북제","북위","북주"],a:1}
+  ],
+  fb:"8왕의 난 → 비수의 전투 → 북위 효문제 한화. 분열 속 호·한 융합이 진행됨."},
+ {type:"cloze", q:"수·당 — 통일제국의 재건",
+  text:"▢①▢ 의 양견이 589년 진을 멸하고 통일했다. 당 태종의 ▢②▢ 를 거쳐, 측천무후의 ▢③▢ 으로 과거 출신 신흥관료가 부상했다. 그러나 ▢④▢ 을 경계로 당대는 전기와 후기로 갈린다.",
+  blanks:[
+   {opts:["수","송","위"],a:0},
+   {opts:["개원의 치","정관의 치","문경의 치"],a:1},
+   {opts:["무주혁명","현무문의 변","육진의 난"],a:0},
+   {opts:["황소의 난","안사의 난","후경의 난"],a:1}
+  ],
+  fb:"수 통일 → 정관의 치 → 무주혁명 → (분기점) 안사의 난."},
+ {type:"cloze", q:"당송변혁 — 율령제의 붕괴",
+  text:"▢①▢ 으로 부병제·균전제가 무너지자, 780년 양염이 재산을 기준으로 한 ▢②▢ 을 시행했다. 이후 환관 전횡과 당쟁, ▢③▢ 의 난을 거쳐 907년 ▢④▢ 이 당을 멸하고 후량을 세웠다.",
+  blanks:[
+   {opts:["정강의 변","안사의 난","비수의 전투"],a:1},
+   {opts:["양세법","조용조","일조편법"],a:0},
+   {opts:["황소","적미","홍건"],a:0},
+   {opts:["주전충","조광윤","야율아보기"],a:0}
+  ],
+  fb:"안사의 난 → 양세법 → 황소의 난 → 주전충(당 멸망)."},
+ {type:"cloze", q:"송·정복왕조 — 군사 약체와 북방의 남하",
+  text:"북송은 ▢①▢ (1004)으로 요에 세폐를 주며 평화를 샀다. 여진의 금이 ▢②▢(1126)으로 북송을 멸하자 고종이 강남에 ▢③▢ 을 세웠다(수도 ▢④▢). 결국 1279년 ▢⑤▢ 의 원이 남송을 멸했다.",
+  blanks:[
+   {opts:["전연의 맹약","정강의 변","소흥화의"],a:0},
+   {opts:["정강의 변","전연의 맹약","토목보의 변"],a:0},
+   {opts:["남송","서하","북제"],a:0},
+   {opts:["개봉","임안","장안"],a:1},
+   {opts:["거란","몽골","탕구트"],a:1}
+  ],
+  fb:"전연의 맹약 → 정강의 변(북송 멸망) → 남송(임안) → 몽골(원)의 통일."},
+
+ /* ===== 추가 확장 문항 ===== */
+ /* -- 위진남북조 -- */
+ {type:"mc", q:"조조 정권이 황폐지와 유민을 활용해 실시한, 수확의 50~60%를 거둔 제도는?",
+  opts:["균전제","둔전제","점전제","호조식"],
+  answer:1, fb:"둔전제(屯田制). 유민 안정+군량 확보로 위가 최강 국력."},
+ {type:"mc", q:"서진이 280년 통일 후 시행한 토지·세제로 묶인 것은?",
+  opts:["균전제·조용조","점전제·과전제·호조식","양세법·전매제","둔전제·병호제"],
+  answer:1, fb:"점전제·과전제(전토 상한·하한)+호조식(호마다 같은 세금) — 제민지배 시도."},
+ {type:"mc", q:"5호16국 시대를 연 인물로, 남흉노 선우의 후예가 세운 한(漢)의 주인공은?",
+  opts:["부견","유연(劉淵)","석륵","탁발규"],
+  answer:1, fb:"유연의 한(304/308). 이후 흉노·선비·저·갈·강의 18국 22정권."},
+ {type:"mc", q:"전진 부견이 화북 통일 뒤 동진 정벌에 나섰다가 대패한 전투는?",
+  opts:["관도대전","적벽대전","비수의 전투","살수대첩"],
+  answer:2, fb:"비수의 전투(383). 패배로 화북 재분열, 회수 경계 남북 대치."},
+ {type:"mc", q:"북위 효문제의 한화정책으로 호족의 향촌을 묶은 인보(隣保) 조직은?",
+  opts:["삼장제","부병제","맹안·모극","구품관인법"],
+  answer:0, fb:"삼장제(三長制). 호적 정비·징세 기반. 균전제·성족상정과 함께 시행."},
+ {type:"mc", q:"육진의 난→하음의 변을 거쳐 북위가 갈라진 두 나라는?",
+  opts:["북제·북주","동위·서위","송·제","요·금"],
+  answer:1, fb:"534/535 동위·서위 분열(고환 vs 우문태) → 이후 북제·북주."},
+ {type:"mc", q:"서위·북주에서 발전해 수·당 황실로 이어진, 호족 색채가 강한 신귀족 집단은?",
+  opts:["관롱집단","청류","사족","색목인"],
+  answer:0, fb:"관롱집단(關隴集團). 부병제와 함께 수·당 지배층의 모체."},
+ {type:"mc", q:"강남 남조 양 무제 말년에 일어나 귀족문화를 무너뜨린 난은?",
+  opts:["황소의 난","후경의 난","육진의 난","안사의 난"],
+  answer:1, fb:"후경의 난(548). 강남 한문(寒門) 출신 황제 출현 → 남조의 종언."},
+ {type:"ox", q:"동진 이후 강남에 도읍한 송·제·양·진과 동진·오를 합쳐 ‘육조(六朝)’라 부른다.",
+  answer:true, fb:"맞다. 수도는 모두 건강(建康). 정치적 약체·문화적 융성."},
+ {type:"ox", q:"북위는 5호의 다른 나라들과 달리 호·한 갈등을 해소하고 중국식 중앙집권을 지향했다.",
+  answer:true, fb:"맞다. 이 ‘호·한체제’가 수·당으로 이어지는 역동성의 바탕."},
+
+ /* -- 수·당 -- */
+ {type:"mc", q:"수 양제가 화북과 강남을 잇기 위해 건설한 것은?",
+  opts:["만리장성","대운하","역참","장성 회랑"],
+  answer:1, fb:"대운하(605~610). ‘진정한 통일’. 다만 고구려 원정 등으로 천하대란."},
+ {type:"mc", q:"수 문제(양견)와 당 고조(이연)의 공통점으로 옳은 것은?",
+  opts:["둘 다 한족 명문 출신","둘 다 관롱집단 출신(이종사촌)","둘 다 환관 출신","둘 다 절도사 출신"],
+  answer:1, fb:"이연과 수 양제는 이종사촌. 당 황실도 관롱집단의 일원."},
+ {type:"mc", q:"당 태종이 형 건성·동생 원길을 제거하고 즉위한 정변은?",
+  opts:["현무문의 변","감로의 변","하음의 변","토목의 변"],
+  answer:0, fb:"현무문의 변(626). 이후 정관의 치(627~649)."},
+ {type:"mc", q:"율령격식 중 ‘시행세칙’에 해당하는 것은?",
+  opts:["율(律)","영(令)","격(格)","식(式)"],
+  answer:3, fb:"율=형법, 영=행정법규, 격=보완개정, 식=시행세칙. 당률소의로 완비."},
+ {type:"mc", q:"당 균전제에서 정남(丁男)에게 지급한 토지 구성으로 옳은 것은?",
+  opts:["구분전 80무 + 영업전 20무","구분전 20무만","영업전 100무","상전 50무"],
+  answer:0, fb:"구분전(국가 환수) 80무 + 영업전(세습) 20무."},
+ {type:"mc", q:"조용조에서 ‘용(庸)’이 뜻하는 것은?",
+  opts:["곡물 납부","노역(또는 그 대납)","비단 납부","소금세"],
+  answer:1, fb:"조=속(곡물), 조=견·면, 용=20일 노역(또는 견·포로 대납)."},
+ {type:"ox", q:"동아시아 문화권의 4대 기본요소는 유교·불교·한자·율령제이다.",
+  answer:true, fb:"맞다. 수·당대에 고구려·백제·신라·일본·베트남으로 전파."},
+ {type:"ox", q:"측천무후의 무주혁명(690)은 당을 ‘주(周)’로 바꾼 사건이며, 과거 출신 신흥관료 부상의 기반이 되었다.",
+  answer:true, fb:"맞다. 문벌(관롱집단) 억압, 비문벌 지원."},
+
+ /* -- 당송변혁 -- */
+ {type:"mc", q:"안사의 난을 일으킨, 소그드 계통 혼혈의 절도사는?",
+  opts:["황소","안녹산","주전충","사사명"],
+  answer:1, fb:"안녹산. 양국충과 다툼 끝 반란 → 화북 초토화, 율령제 종언."},
+ {type:"mc", q:"양세법(780)의 특징이 아닌 것은?",
+  opts:["여름·가을 2회 징수","호의 자산 기준","전액전납(화폐 납세)","인두세 중심"],
+  answer:3, fb:"양세법은 재산(자산) 기준. 인두세적 성격은 조용조."},
+ {type:"mc", q:"당 후기 절도사가 군사·민정·재정을 장악한 지방 체제는?",
+  opts:["번진체제","행성제","삼성육부","기미정책"],
+  answer:0, fb:"번진(藩鎭). 반측지지(화북)↔순지(강회·강남)."},
+ {type:"mc", q:"당 후기 과거 신흥지주층과 귀족관료의 대립으로 일어난 당쟁은?",
+  opts:["우이당쟁","신구당쟁","경원당금","동림당쟁"],
+  answer:0, fb:"우이당쟁(牛李黨爭). 진사과 출신 우당 승리."},
+ {type:"mc", q:"874~884년에 일어나 당의 재정기반을 와해시킨 대규모 반란은?",
+  opts:["황소의 난","홍건군의 난","적미의 난","방랍의 난"],
+  answer:0, fb:"황소의 난(왕선지·황소). 이후 907 주전충이 당을 멸함."},
+ {type:"mc", q:"‘당송변혁’ 시기 경제 중심의 이동을 보여 주는 말은?",
+  opts:["관중본위","소호숙 천하족","천부지국","해금정책"],
+  answer:1, fb:"‘소주·호주가 풍년이면 천하가 배부르다’ — 경제 중심의 강남 이동."},
+ {type:"ox", q:"나이토 고난은 8세기 후반~10세기를 귀족정치에서 사대부사회·군주독재로 바뀌는 획기로 보았다.",
+  answer:true, fb:"맞다. 과거 중시, 서민 지위 강화, 실물→화폐경제 등."},
+
+ /* -- 송 -- */
+ {type:"mc", q:"송 태조 조광윤이 절도사의 병권을 회수하고 강화한 통치 방식은?",
+  opts:["무단통치","문치주의(문신관료제)","귀족정치","봉건제"],
+  answer:1, fb:"금군 단일화+문신 위주. 과거 전시 정착으로 사대부가 지배층."},
+ {type:"mc", q:"송이 1004년 요와 맺어 비단 20만 필·은 10만 냥을 매년 준 조약은?",
+  opts:["전연의 맹약","소흥화의","정강의 변","경원의 맹"],
+  answer:0, fb:"전연의 맹약. 형제관계+세폐. 키타이가 서방에 중국 호칭으로 전해짐."},
+ {type:"mc", q:"왕안석 신법의 강병책에 해당하는 것은?",
+  opts:["청묘법","보갑법·보마법·장병법","삼사법","호명법"],
+  answer:1, fb:"강병책=보갑·보마·장병. 관료개혁=청묘·삼사 등."},
+ {type:"mc", q:"1126년 금이 변경(개봉)을 함락하고 휘종·흠종을 포로로 잡은 사건은?",
+  opts:["정강의 변","전연의 맹약","토목의 변","현무문의 변"],
+  answer:0, fb:"정강의 변 → 북송 멸망 → 고종이 남송(임안) 건국."},
+ {type:"ox", q:"남송에서 성리학을 집대성한 인물은 주희이다.",
+  answer:true, fb:"맞다. 북송오자를 거쳐 주희가 주자학 대성."},
+ {type:"ox", q:"인쇄술·나침반·화약은 송대에 크게 발전한 기술이다.",
+  answer:true, fb:"맞다. 필승의 활자, 나침반 항해 응용, 화약 병기화."},
+
+ /* -- 정복왕조·원 -- */
+ {type:"mc", q:"금(여진) 고유의 부족제로, 300호=1모극, 10모극=1맹안인 제도는?",
+  opts:["맹안·모극","북면·남면관","천호·백호","행성제"],
+  answer:0, fb:"맹안·모극(猛安謀克). 금의 군사·행정 조직."},
+ {type:"mc", q:"몽골제국에서 1271년 국호를 ‘대원(大元)’으로 정한 인물은?",
+  opts:["칭기즈칸","오고타이","쿠빌라이","몽케"],
+  answer:2, fb:"쿠빌라이. 1279 남송 멸망으로 전 중국 통일."},
+ {type:"mc", q:"원의 신분제 4등급에서 가장 차별받은, 옛 남송 치하 한족은?",
+  opts:["한인","색목인","남인","몽골"],
+  answer:2, fb:"몽골>색목인>한인>남인. 남인이 최다수이면서 최하 차별."},
+ {type:"mc", q:"원대 지방 통치 단위로, 현재 중국 ‘성(省)’의 기원이 된 것은?",
+  opts:["행성(行省)","번진","도호부","로(路)"],
+  answer:0, fb:"행성=중서성 출장기관. 그 아래 로·부·주·현."},
+ {type:"mc", q:"1281년 곽수경이 이슬람 천문학을 종합해 만든 원대 역법은?",
+  opts:["수시력","대연력","태초력","대명력"],
+  answer:0, fb:"수시력(授時曆). 동서 문화 교류의 대표 산물."},
+ {type:"ox", q:"비트포겔은 요·금·원·청을 ‘정복왕조’, 북위 등을 ‘침투왕조’로 구분했다.",
+  answer:true, fb:"맞다. 정복왕조는 동화에 저항하는 이중·이원성을 띰."},
+ {type:"ox", q:"원을 쇠퇴로 몰고 간 백련교도의 봉기는 ‘홍건군의 난’이며, 주원장이 여기서 나왔다.",
+  answer:true, fb:"맞다. 1351년 봉기. 계승분쟁·재정난과 겹쳐 원이 무너짐."},
+
+ /* -- 종족·서적 연결 추가 -- */
+ {type:"order", q:"다음 사실을 발생 순서대로 클릭하시오.",
+  items:["과거제 창설","전연의 맹약","안사의 난","정강의 변","현무문의 변"],
+  answer:["과거제 창설","현무문의 변","안사의 난","전연의 맹약","정강의 변"],
+  fb:"과거제(587)·현무문의 변(626)·안사의 난(755)·전연의 맹약(1004)·정강의 변(1126)."},
+ {type:"match", q:"다음 사건과 직접 관련된 인물을 고르시오.",
+  pairs:[
+   {book:"무주혁명", dyn:"측천무후"},
+   {book:"왕안석 신법", dyn:"왕안석"},
+   {book:"안사의 난", dyn:"안녹산"},
+   {book:"북위 한화정책", dyn:"효문제"}
+  ], dyns:["효문제","측천무후","안녹산","왕안석"],
+  fb:"무주혁명-측천무후 / 신법-왕안석 / 안사의 난-안녹산 / 한화정책-효문제."},
+ {type:"match", q:"다음 종족이 세운 정복왕조를 고르시오.",
+  pairs:[
+   {book:"거란", dyn:"요"},
+   {book:"여진", dyn:"금"},
+   {book:"몽골", dyn:"원"},
+   {book:"탕구트", dyn:"서하"}
+  ], dyns:["요","금","원","서하"],
+  fb:"거란=요, 여진=금, 몽골=원, 탕구트(당항)=서하."},
+
+ /* -- 빈칸 추가 -- */
+ {type:"cloze", q:"삼국·서진 — 분열과 짧은 통일",
+  text:"황건의 난 후 군웅이 할거했고, 조조는 ▢①▢ 에서 원소를 꺾었으나 ▢②▢ 에서 패해 천하가 셋으로 갈렸다. 이후 ▢③▢ 의 사마염이 280년 통일했으나 30년 만에 무너졌다.",
+  blanks:[
+   {opts:["적벽대전","관도대전","비수의 전투"],a:1},
+   {opts:["적벽대전","살수대첩","관도대전"],a:0},
+   {opts:["서진","동진","북위"],a:0}
+  ],
+  fb:"관도대전(200) → 적벽대전(208) → 서진 통일(280)."},
+ {type:"cloze", q:"율령제와 동아시아세계",
+  text:"수·당의 기본법은 율·영·격·식으로 정비되어 ▢①▢ 에 집대성됐다. 동아시아 문화권의 4대 요소는 유교·불교·한자·▢②▢ 이며, 일본은 701년 ▢③▢ 으로 이를 받아들였다.",
+  blanks:[
+   {opts:["당률소의","법경","자치통감"],a:0},
+   {opts:["과거제","율령제","봉건제"],a:1},
+   {opts:["다이호율령","요로율령","개황율령"],a:0}
+  ],
+  fb:"당률소의 / 율령제 / 다이호율령(701)·요로율령(757)."},
+];
+
+/* ----- 도식 역사지도 (직접 작성, 저작권 자유) ----- */
+const DYNMAP={
+  '당':{hz:'唐',c:'#5C7F70'}, '북송':{hz:'宋',c:'#5C7F70'}, '남송':{hz:'南宋',c:'#5C7F70'},
+  '요':{hz:'遼',c:'#4A6FA5'}, '금':{hz:'金',c:'#6B5B95'}, '서하':{hz:'西夏',c:'#A98A45'},
+  '원':{hz:'元',c:'#B23A2C'}, '몽골':{hz:'蒙古',c:'#9c4a3a'}, '발해':{hz:'渤海',c:'#3E8E7E'},
+  '토번':{hz:'吐蕃',c:'#8A7B3A'}, '돌궐':{hz:'突厥',c:'#8a5a3a'}, '4한국':{hz:'四汗國',c:'#c47a3a'},
+  '':{hz:'',c:'#d8ccae'}
+};
+const ZONES=[
+  {k:'mongol', p:'72,14 248,14 244,52 76,52', lx:160, ly:36},
+  {k:'dongbei',p:'252,28 322,34 320,112 256,108', lx:288, ly:74},
+  {k:'seoyeok',p:'8,64 66,60 64,128 10,126', lx:36, ly:98},
+  {k:'seoha',  p:'72,60 134,58 138,116 78,118', lx:106, ly:90},
+  {k:'hwabuk', p:'82,90 250,90 250,158 112,162 86,148', lx:166, ly:126},
+  {k:'tibet',  p:'18,150 112,150 108,236 22,232', lx:64, ly:196},
+  {k:'gangnam',p:'114,166 270,160 264,250 118,250', lx:192, ly:210}
+];
+const PERIODS={
+  p8c:{mongol:'돌궐',dongbei:'발해',seoyeok:'',seoha:'',hwabuk:'당',tibet:'토번',gangnam:'당'},
+  p11c:{mongol:'요',dongbei:'요',seoyeok:'',seoha:'서하',hwabuk:'북송',tibet:'토번',gangnam:'북송'},
+  p13e:{mongol:'몽골',dongbei:'금',seoyeok:'',seoha:'서하',hwabuk:'금',tibet:'토번',gangnam:'남송'},
+  p13l:{mongol:'원',dongbei:'원',seoyeok:'4한국',seoha:'원',hwabuk:'원',tibet:'원',gangnam:'원'}
+};
+function mapSVG(key){
+  const cfg=PERIODS[key]; if(!cfg)return '';
+  let z='';
+  ZONES.forEach(zo=>{
+    const d=DYNMAP[cfg[zo.k]]||DYNMAP[''];
+    z+=`<polygon points="${zo.p}" fill="${d.c}" stroke="#23231f" stroke-width="1.2" opacity="${d.hz?'.92':'.5'}"/>`;
+    if(d.hz){
+      z+=`<text x="${zo.lx}" y="${zo.ly}" text-anchor="middle" font-family="'Noto Serif KR',serif" font-weight="900" font-size="15" fill="#fff" style="paint-order:stroke" stroke="#0003" stroke-width="2">${d.hz}</text>`;
+    }
+  });
+  return `<svg viewBox="0 0 332 268" width="100%" style="max-width:420px;display:block;margin:4px auto 2px" role="img" aria-label="세력 분포 도식 지도">
+    <rect x="0" y="0" width="332" height="268" fill="#efe6d2"/>
+    ${z}
+    <path d="M92,118 q34,-10 60,4 q34,14 70,2" fill="none" stroke="#c9a14a" stroke-width="2" opacity=".8"/>
+    <path d="M126,206 q40,-8 76,2 q30,8 56,-2" fill="none" stroke="#5a7fa0" stroke-width="2" opacity=".8"/>
+    <text x="14" y="20" font-size="10" fill="#6a6457">北</text>
+    <text x="14" y="258" font-size="10" fill="#6a6457">南</text>
+  </svg>`;
+}
+function mapFigure(key){
+  const wrap=el('figure',''); wrap.style.cssText='margin:6px 0 12px;background:#efe6d2;border:1px solid var(--paper-line);border-radius:10px;padding:8px';
+  wrap.innerHTML=mapSVG(key)+`<figcaption style="font-size:.72rem;color:var(--ink-soft);text-align:center;margin-top:4px">도식 지도 · 색=세력별 / 황(황하)·청(장강) 선은 위치 기준 (개략 도식, 실제 국경 아님)</figcaption>`;
+  return wrap;
+}
+
+const CARDS = [
+ {hz:"兵戶制",ko:"병호제",def:"세습적 병역 부과(병농분리). 위가 채택, 남북조까지 이어짐.",era:"위진남북조"},
+ {hz:"屯田制",ko:"둔전제",def:"유민·황폐지를 활용한 국가 경작. 수확의 50~60% 납부.",era:"위진남북조"},
+ {hz:"九品官人法",ko:"구품관인법",def:"220년 진군 건의. 호족의 관직 독점 통로 → 문벌귀족화 촉진.",era:"위진남북조"},
+ {hz:"八王의 亂",ko:"8왕의 난",def:"서진 봉건제 부활의 후유증(291~306). 오호16국의 단초.",era:"위진남북조"},
+ {hz:"淝水之戰",ko:"비수의 전투",def:"383년 전진 부견 패배 → 화북 재분열, 회수 경계 남북 대치.",era:"위진남북조"},
+ {hz:"均田制",ko:"균전제",def:"국가가 토지를 나눠줌. 북위 효문제(485) 시작 → 수·당 계승.",era:"위진남북조·수당"},
+ {hz:"三長制",ko:"삼장제",def:"북위 효문제의 향촌 조직(인보제). 호적 정비·징세 기반.",era:"위진남북조"},
+ {hz:"關隴集團",ko:"관롱집단",def:"서위·북주의 호족 색채 신귀족. 수·당 황실로 이어짐.",era:"위진남북조"},
+ {hz:"府兵制",ko:"부병제",def:"병농일치 징병제. 서위·북주~수·당. 안사의 난 후 모병제로.",era:"수·당"},
+ {hz:"科擧制",ko:"과거제",def:"587년 수 문제 창설. 시험으로 관리 선발, 1905년까지 지속.",era:"수·당"},
+ {hz:"三省六部",ko:"삼성육부",def:"중서성(기초)·문하성(봉박권)·상서성(집행)+6부.",era:"수·당"},
+ {hz:"封駁權",ko:"봉박권",def:"문하성이 황제 조칙을 심의·반환하는 권한.",era:"수·당"},
+ {hz:"租庸調",ko:"조용조",def:"조(곡물)·용(노역/대납)·조(견·면). 균전제와 짝하는 인두세적 세역.",era:"수·당"},
+ {hz:"良賤制",ko:"양천제",def:"양인(제민)과 천인을 구분한 신분 질서.",era:"수·당"},
+ {hz:"貞觀之治",ko:"정관의 치",def:"당 태종(627~649)의 치세. 『정관정요』.",era:"수·당"},
+ {hz:"天可汗",ko:"천가한",def:"돌궐 제압 후 태종이 받은 칭호(텡그리 카간).",era:"수·당"},
+ {hz:"武周革命",ko:"무주혁명",def:"690년 측천무후가 당을 周로 바꿈. 과거 신흥관료 부상 기반.",era:"수·당"},
+ {hz:"開元之治",ko:"개원의 치",def:"현종 전기(712~) 전성기. 천보 말 안사의 난으로 몰락.",era:"수·당"},
+ {hz:"律令格式",ko:"율령격식",def:"율(형법)·령(행정)·격(보완)·식(세칙). 당률소의.",era:"수·당"},
+ {hz:"安史之亂",ko:"안사의 난",def:"755~763 안녹산·사사명. 율령제 종언, 당송변혁 출발점.",era:"당송변혁"},
+ {hz:"藩鎭",ko:"번진",def:"절도사가 군사·민정·재정을 장악한 지방세력. 당 후기 분권.",era:"당송변혁"},
+ {hz:"兩稅法",ko:"양세법",def:"780년 양염. 재산 기준·여름가을 2회·화폐 납세.",era:"당송변혁"},
+ {hz:"牛李黨爭",ko:"우이당쟁",def:"과거 신흥지주 vs 귀족관료의 당쟁(진사과 우당 승리).",era:"당송변혁"},
+ {hz:"澶淵之盟",ko:"전연의 맹약",def:"1004년 송·요. 송→요 비단20만·은10만(세폐).",era:"송"},
+ {hz:"靖康之變",ko:"정강의 변",def:"1126년 금이 변경 함락, 휘종·흠종 포로 → 북송 멸망.",era:"송"},
+ {hz:"猛安謀克",ko:"맹안·모극",def:"금(여진) 고유 부족제. 300호=1모극, 10모극=1맹안.",era:"정복왕조"},
+ {hz:"北面南面",ko:"북면·남면관",def:"요(거란)의 이중체제. 북면=유목 통치, 남면=농경 통치.",era:"정복왕조"},
+ {hz:"色目人",ko:"색목인",def:"원 4등급제 2등급. 서역(아라비아·유럽)인, 재정에 등용.",era:"원"},
+ {hz:"授時曆",ko:"수시력",def:"1281 곽수경. 이슬람 천문학을 종합한 원대 역법.",era:"원"},
+ {hz:"行省",ko:"행성",def:"원의 지방 통치 단위(중서성 출장기관). 현 중국 省의 기원.",era:"원"},
+];
+
+/* =================== 렌더 =================== */
+function $(s,el=document){return el.querySelector(s)}
+function el(t,c,h){const e=document.createElement(t);if(c)e.className=c;if(h!=null)e.innerHTML=h;return e}
+
+/* 탭 */
+const tabs=document.querySelectorAll('nav.tabs button');
+const panels=document.querySelectorAll('.panel');
+tabs.forEach(b=>b.addEventListener('click',()=>{
+  tabs.forEach(x=>x.setAttribute('aria-selected',x===b));
+  panels.forEach(p=>p.classList.toggle('active',p.id===b.dataset.tab));
+  window.scrollTo({top:0,behavior:'smooth'});
+}));
+
+/* 개관 두루마리 */
+const hs=$('#handscroll');
+DYN.forEach(d=>{
+  const wrap=el('div','dyn');
+  const bar=el('div','bar '+(d.t==='unify'?'era-unify':'era-split'), d.hz.replace('\n','<br>'));
+  wrap.appendChild(bar);
+  wrap.appendChild(el('div','ko',d.ko));
+  wrap.appendChild(el('div','yr',d.yr));
+  hs.appendChild(wrap);
+});
+
+/* 연표 */
+const tlBox=$('#timeline'), tlFil=$('#tlfilters');
+let tlActive="전체";
+UNITS.forEach(u=>{
+  const b=el('button',null,u);b.setAttribute('aria-pressed',u==="전체");
+  b.addEventListener('click',()=>{tlActive=u;[...tlFil.children].forEach(c=>c.setAttribute('aria-pressed',c===b));renderTL()});
+  tlFil.appendChild(b);
+});
+function renderTL(){
+  tlBox.innerHTML='';
+  TL.filter(e=>tlActive==="전체"||e.u===tlActive).forEach(e=>{
+    const d=el('div','tl'+(e.big?' u':''));
+    d.innerHTML=`<div><span class="yr">${e.y}</span> <span class="tt">${e.t}</span><span class="dc">${e.u}</span></div><div class="ds">${e.d}</div>`;
+    tlBox.appendChild(d);
+  });
+}
+renderTL();
+
+/* 학습 */
+const sa=$('#studyArea');
+STUDY.forEach((u,i)=>{
+  const det=el('details','acc'); if(i===0)det.open=true;
+  const sum=el('summary'); // use details/summary semantics
+  const btn=el('button',null,`<span>${u.ko}<span class="hz">${u.hz}</span></span><span class="tw">＋</span>`);
+  det.appendChild(btn);
+  const body=el('div','body');
+  body.appendChild(el('div','', `<div class="keyq"><b>핵심 문제 </b>${u.q}</div>`));
+  u.blocks.forEach(bl=>{
+    body.appendChild(el('h4','',`<span class="tag">${bl.h}</span>`));
+    const ul=el('ul'); bl.li.forEach(t=>ul.appendChild(el('li',null,t))); body.appendChild(ul);
+  });
+  det.appendChild(body);
+  // toggle via button (details has no default summary)
+  btn.addEventListener('click',()=>{det.open=!det.open});
+  sa.appendChild(det);
+});
+
+/* =================== 퀴즈 =================== */
+const qa=$('#quizArea'), qScore=$('#qScore');
+let qIdx=0, qDone=0, qCorrect=0, qOrder=[];
+function shuffle(a){a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.random()*(i+1)|0;[a[i],a[j]]=[a[j],a[i]]}return a}
+function updScore(){qScore.textContent=`문항 ${qDone} / ${QUIZ.length} · 정답 ${qCorrect}`}
+
+function renderQuiz(){
+  qa.innerHTML=''; updScore();
+  if(qDone>=QUIZ.length){return showResult()}
+  const q=QUIZ[qIdx];
+  const card=el('div','qcard');
+  const labels={order:"순서 배열",mc:"객관식",ox:"O / X",match:"서적–왕조 연결",cloze:"빈칸 채우기"};
+  card.appendChild(el('div','qtype',`${qIdx+1}. ${labels[q.type]}`));
+  card.appendChild(el('div','qtext',q.q));
+  if(q.map) card.appendChild(mapFigure(q.map));
+
+  const feed=el('div','qfeed');
+
+  if(q.type==='mc'){
+    const opts=el('div','opts');
+    q.opts.forEach((o,i)=>{
+      const b=el('button','opt',`<span class="num">${i+1}</span><span>${o}</span>`);
+      b.addEventListener('click',()=>{
+        if(b.disabled)return;
+        [...opts.children].forEach(x=>x.disabled=true);
+        const right=i===q.answer; if(right)b.classList.add('correct');else{b.classList.add('wrong');opts.children[q.answer].classList.add('correct')}
+        finish(right,feed,q.fb);
+      });
+      opts.appendChild(b);
+    });
+    card.appendChild(opts);
+  }
+  else if(q.type==='ox'){
+    const opts=el('div','opts');opts.style.gridTemplateColumns='1fr 1fr';
+    [['O',true],['X',false]].forEach(([lab,val])=>{
+      const b=el('button','opt',`<span class="num">${lab}</span>`);b.style.justifyContent='center';
+      b.addEventListener('click',()=>{
+        [...opts.children].forEach(x=>x.disabled=true);
+        const right=val===q.answer;b.classList.add(right?'correct':'wrong');
+        finish(right,feed,q.fb);
+      });
+      opts.appendChild(b);
+    });
+    card.appendChild(opts);
+  }
+  else if(q.type==='order'){
+    qOrder=[];
+    const pool=el('div','order-pool');
+    const shuffled=shuffle(q.items);
+    shuffled.forEach(it=>{
+      const b=el('button','ord',`<span class="seq"></span><span>${it}</span>`);
+      b.addEventListener('click',()=>{
+        if(b.classList.contains('picked')){return}
+        qOrder.push(it);b.classList.add('picked');$('.seq',b).textContent=qOrder.length;
+      });
+      pool.appendChild(b);
+    });
+    card.appendChild(pool);
+    const ctrl=el('div','qctrl');
+    const reset=el('button','btn ghost','초기화');
+    reset.addEventListener('click',()=>{qOrder=[];[...pool.children].forEach(c=>{c.classList.remove('picked','ok','ng');$('.seq',c).textContent=''})});
+    const check=el('button','btn prim','채점');
+    check.addEventListener('click',()=>{
+      if(qOrder.length<q.items.length){return}
+      let right=true;
+      [...pool.children].forEach(c=>{
+        const txt=c.querySelector('span:last-child').textContent;
+        const pos=qOrder.indexOf(txt);
+        const ok=q.answer[pos]===txt; c.classList.add(ok?'ok':'ng'); if(!ok)right=false; c.disabled=true;
+      });
+      check.disabled=true;reset.disabled=true;
+      finish(right,feed,q.fb);
+    });
+    ctrl.appendChild(reset);ctrl.appendChild(check);card.appendChild(ctrl);
+  }
+  else if(q.type==='match'){
+    const wrap=el('div','opts');
+    let answered=0,allright=true;
+    const pairs=shuffle(q.pairs);
+    pairs.forEach(p=>{
+      const row=el('div','',''); row.style.cssText='display:flex;gap:8px;align-items:center;flex-wrap:wrap';
+      row.appendChild(el('span','',`<b style="font-family:'Noto Serif KR'">${p.book}</b>`));
+      const sel=el('div','');sel.style.cssText='display:flex;gap:6px;flex-wrap:wrap';
+      q.dyns.forEach(dn=>{
+        const b=el('button','ord',`<span>${dn}</span>`);b.style.padding='5px 10px';
+        b.addEventListener('click',()=>{
+          [...sel.children].forEach(x=>x.disabled=true);
+          const ok=dn===p.dyn;b.classList.add(ok?'ok':'ng');if(!ok)allright=false;
+          answered++; if(answered===pairs.length){finish(allright,feed,q.fb)}
+        });
+        sel.appendChild(b);
+      });
+      row.appendChild(sel);wrap.appendChild(row);
+    });
+    card.appendChild(wrap);
+  }
+  else if(q.type==='cloze'){
+    // 문장을 ▢①▢ ... 표시로 분할, 각 빈칸에 보기 드롭 버튼 묶음 삽입
+    const sent=el('div',''); sent.style.cssText='font-size:1rem;line-height:2.1;margin-bottom:6px';
+    const marks=['①','②','③','④','⑤','⑥'];
+    let html=q.text;
+    q.blanks.forEach((b,i)=>{ html=html.replace('▢'+marks[i]+'▢', `<span class="cloze-slot" data-i="${i}">＿${marks[i]}＿</span>`); });
+    sent.innerHTML=html;
+    card.appendChild(sent);
+    const picksWrap=el('div',''); picksWrap.style.cssText='display:flex;flex-direction:column;gap:10px;margin-top:8px';
+    let answered=0, allright=true;
+    const chosen=new Array(q.blanks.length).fill(null);
+    q.blanks.forEach((b,i)=>{
+      const grp=el('div',''); grp.style.cssText='display:flex;gap:6px;flex-wrap:wrap;align-items:center';
+      grp.appendChild(el('span','',`<b class="mono" style="color:var(--celadon-dk)">${marks[i]}</b>`));
+      const optShuf=shuffle(b.opts.map((o,idx)=>({o,idx})));
+      optShuf.forEach(({o,idx})=>{
+        const btn=el('button','ord',`<span>${o}</span>`); btn.style.padding='6px 11px';
+        btn.addEventListener('click',()=>{
+          if(chosen[i]!==null)return;
+          chosen[i]=idx;
+          [...grp.querySelectorAll('button')].forEach(x=>x.disabled=true);
+          const ok=idx===b.a; btn.classList.add(ok?'ok':'ng'); if(!ok)allright=false;
+          // 정답 슬롯 채우기
+          const slot=sent.querySelector(`.cloze-slot[data-i="${i}"]`);
+          if(slot){slot.textContent=b.opts[b.a];slot.style.cssText='font-weight:700;color:'+(ok?'var(--ok)':'var(--no)')+';border-bottom:2px solid '+(ok?'var(--ok)':'var(--no)')}
+          answered++; if(answered===q.blanks.length){finish(allright,feed,q.fb)}
+        });
+        grp.appendChild(btn);
+      });
+      picksWrap.appendChild(grp);
+    });
+    card.appendChild(picksWrap);
+  }
+
+  card.appendChild(feed);
+  qa.appendChild(card);
+}
+function finish(right,feed,fb){
+  qDone++; if(right)qCorrect++; updScore();
+  feed.classList.add('show',right?'good':'bad');
+  feed.innerHTML=`<span class="stamp">${right?'正':'誤'}</span>${right?'정답!':'오답.'} ${fb}`;
+  const next=el('button','btn prim',qIdx+1>=QUIZ.length?'결과 보기':'다음 문항 →');
+  next.style.marginTop='12px';
+  next.addEventListener('click',()=>{qIdx++;renderQuiz()});
+  feed.appendChild(document.createElement('br'));feed.appendChild(next);
+}
+function showResult(){
+  const pct=Math.round(qCorrect/QUIZ.length*100);
+  const r=el('div','result');
+  r.innerHTML=`<div class="seal-big">${pct>=80?'優':pct>=60?'良':'勉'}</div>
+    <div class="big">${qCorrect} / ${QUIZ.length}</div>
+    <p style="color:var(--ink-2)">정답률 ${pct}% — ${pct>=80?'아주 좋습니다. 시험 준비가 잘 됐어요.':pct>=60?'기본기는 탄탄합니다. 틀린 부분만 학습 탭에서 보강하세요.':'학습 탭으로 한 번 더 훑고 다시 도전해 보세요.'}</p>`;
+  const again=el('button','btn prim','다시 풀기');again.addEventListener('click',resetQuiz);
+  r.appendChild(again);qa.innerHTML='';qa.appendChild(r);
+}
+function resetQuiz(){qIdx=0;qDone=0;qCorrect=0;renderQuiz()}
+$('#qRestart').addEventListener('click',resetQuiz);
+renderQuiz();
+
+/* =================== 예상문제(기출형) =================== */
+const EXAM=[
+ {tag:"왕조 배열형", q:"〔촉한, 서진, 전진, 동진, 북위, 진(陳), 북송, 남송〕 (1) 성립 순서 배열 (2) 공존 왕조 묶기 (3) (2) 중 강남 중심 왕조와 그 수도.",
+  a:["(1) 촉한(221)→서진(265)→동진(317)→전진(351)→북위(386)→진(557)→북송(960)→남송(1127).",
+     "(2) 동진·전진·북위가 약 386~394년 공존(삼중). 촉한·서진·북송·남송은 목록 내 공존 상대 없음(서진→동진, 북송→남송은 계승).",
+     "(3) 강남 중심=동진(東晉), 수도=건강(建康). 전진(장안)·북위(평성→낙양)는 화북.",
+     "※ 함정: ‘공존’과 ‘계승’ 구별. 북송→남송은 정강의 변으로 망한 뒤 이어진 계승."]},
+ {tag:"종족 배열 + 인물형", q:"〔흉노, 선비, 유연, 돌궐, 거란〕 (1) 두드러진 활약 시기 순 배열 (2) 한 종족을 골라 중요 인물 2명의 행적.",
+  a:["(1) 흉노→선비→유연→돌궐→거란.",
+     "(2-거란) 야율아보기: 거란 통일·916 요 건국, 926 발해 멸망. 야율대석: 요 멸망(1125) 후 서요(카라키타이) 건국.",
+     "(2-돌궐) 부민(土門)가한: 552 유연 격파·돌궐 건국. 힐리가한: 630 당 태종에 패배→천가한 칭호 계기.",
+     "(2-선비) 탁발규(도무제): 386 북위 건국. 효문제: 균전제·낙양 천도·한화정책."]},
+ {tag:"사실 배열 + 인물형", q:"〔둔전제, 효문제 한화, 대운하 완성, 정관의 치, 무주혁명, 전연의 맹약, 자치통감, 수시력〕 (1) 발생 순 배열 (2) 관련 인물 2명 〔사실–성명–활동 왕조〕.",
+  a:["(1) 둔전제(2C말)→효문제 한화(485)→대운하(610)→정관의 치(627)→무주혁명(690)→전연의 맹약(1004)→자치통감(1084)→수시력(1281).",
+     "(2) 예: 둔전제–조조–위 / 효문제 한화–효문제–북위 / 무주혁명–측천무후–당(주) / 자치통감–사마광–북송 / 수시력–곽수경–원 (이 중 2명)."]},
+ {tag:"서적형", q:"〔(1) 대당서역기 (2) 자치통감 (3) 근사록 (4) 수시력〕 각 책의 편찬 당시 왕조를 밝히고, 두 책의 저자와 역사적 의미를 설명.",
+  a:["왕조: 대당서역기=당, 자치통감=북송, 근사록=남송, 수시력=원.",
+     "대당서역기–현장: 인도 구법(나란다 5년, 18년 만에 귀국) 견문. 7세기 서역·인도의 1급 사료, 당 문화의 국제성.",
+     "자치통감–사마광: 전국~오대 편년체 통사. 통치 거울(資治)을 표방한 교훈서, 구법당의 대표 저술.",
+     "(근사록–주희·여조겸: 북송 도학 발췌, 성리학 입문서) / (수시력–곽수경: 이슬람 천문학 종합, 동서교류 산물)."]},
+ {tag:"역사지도 세기 판별형", q:"〔화북=금 / 강남=남송 / 서북=서하 / 몽골고원=몽골 등장〕 (1) 몇 세기? (2) 판단 근거.",
+  a:["(1) 13세기 초(약 1210~1220년대).",
+     "(2) 금·남송 병존=정강의 변(1126) 이후 / 서하 존속=1227 칭기즈칸 멸망 이전 / 몽골 통일 세력 등장=칭기즈칸 즉위(1206) 이후. 세 단서가 겹치는 시기.",
+     "※ 요령: 요·북송·서하=11세기 / 금·남송·서하+몽골 부재=12세기 / +몽골 등장=13세기 초 / 원이 강남까지=13세기 말."]},
+ {tag:"논술형 — 지배층 변천", q:"삼국시대부터 원까지 중국사를 이끈 지배층을 서론(개념)–본론(시기별 변동, 구체적 사실)–결론(특징)으로 논하시오.",
+  a:["서론: 지배층=권력·관직·토지를 장악한 집단. 충원 방식(추천/세습/시험)·경제 기반에 따라 성격 변천.",
+     "본론① 위진남북조: 구품관인법(220)→문벌귀족. 효문제 성족상정으로 가문 등급화.",
+     "본론② 수·당: 과거제(587)로 신흥관료 등장하나 당 전기까지 문벌 주류. 무주혁명이 신흥계층 진출 촉진.",
+     "본론③ 당 후기~오대: 안사·황소의 난으로 귀족 몰락, 절도사 대두.",
+     "본론④ 송: 전시 정착으로 과거가 황제 직속화 → 사대부가 새 지배층(성리학 이념).",
+     "본론⑤ 정복왕조·원: 유목귀족 지배, 4등급제로 한족 배제, 과거 폐지·약화.",
+     "결론: 문벌귀족→귀족·과거 병존→사대부→유목귀족. 큰 흐름은 ‘세습 문벌의 쇠퇴와 과거 관료의 부상’."]},
+ {tag:"논술형 — 주변부", q:"중국사 전개에서 ‘주변부’에 살던 사람들의 역할과 역사적 의미를 서론·본론·결론으로 논하시오.",
+  a:["서론: 농경 ‘중심부’와 대비되는 초원·반농반목 지역(유목민의 세계). 넓게는 피지배층·여성·주변국 포함.",
+     "본론·역할: 흉노·선비·돌궐·거란·여진·몽골이 군사력으로 중심부에 개입.",
+     "본론·관계: 만리장성(차단), 남북분열(오호16국·남북조), 침투왕조(북위)·정복왕조(요·금·원·청).",
+     "본론·구체: 세폐 등 물자 교류, 호상·입식 생활, 율령·불교의 쌍방향 전파, 역참(잠치)의 동서 교류.",
+     "본론·논점: 전쟁·약탈의 소극적 측면 vs 문화 융합의 적극적 측면 — 무게중심 선택.",
+     "결론: 주변부는 단순한 ‘오랑캐’가 아니라 대립·융합으로 호한 융합체제를 만든 동력(택한 논점에 일관)."]},
+
+ /* ===== 추가 예상문제 ===== */
+ {tag:"왕조 배열형", q:"〔조위, 서진, (유)송, 북위, 수, 당, 북송, 금〕 (1) 성립 순서 (2) 공존 왕조 묶기 (3) (2) 중 강남 중심 왕조와 수도.",
+  a:["(1) 조위(220)→서진(265)→(유)송(420)→북위(386? — 성립은 386이나 표기 주의)…",
+     "    ▶ 정확한 성립순: 조위(220)→서진(265)→북위(386)→송(420)→수(581)→당(618)→북송(960)→금(1115).",
+     "(2) 공존: 〔북위·송〕(420~479 겹침) / 〔북송·금〕(1115~1127 겹침). 조위·서진·수·당은 목록 내 공존 상대 없음.",
+     "(3) 강남 중심=(유)송, 수도=건강(建康). 북위는 화북(평성→낙양), 금도 화북."]},
+ {tag:"왕조 배열형", q:"〔동진, 진(陳), 후량(오대), 남송, 원〕 (1) 성립 순서 (2) 이 중 강남에 중심을 둔 왕조를 모두 적고 각 수도.",
+  a:["(1) 동진(317)→진(陳, 557)→후량(907)→북송 생략… ▶ 동진(317)→진(557)→후량(907)→남송(1127)→원(1271).",
+     "(2) 강남 중심: 동진(건강), 진(陳)(건강), 남송(임안=항주). 후량은 변경(개봉, 화북), 원은 대도(연경, 화북)."]},
+ {tag:"종족 배열형", q:"〔흉노, 갈, 선비, 거란, 몽골〕 — 중국사와 직접 관련된 두드러진 활약 시기가 이른 순서대로 재배열.",
+  a:["흉노 → 갈 → 선비 → 거란 → 몽골.",
+     "· 흉노: 진·한 대립~오호16국(전조 등). · 갈: 오호16국기 후조(석륵). · 선비: 북위(386). · 거란: 요(916). · 몽골: 원(13세기)."]},
+ {tag:"종족 배열 + 인물형", q:"〔선비, 거란, 여진, 몽골〕 (1) 활약 시기 순 배열 (2) 한 종족을 골라 정복/침투왕조와 대표 인물 1명.",
+  a:["(1) 선비 → 거란 → 여진 → 몽골.",
+     "(2) 예: 거란–요(정복왕조)–야율아보기(916 건국) / 여진–금–아구타(1115) / 몽골–원–쿠빌라이(1271) / 선비–북위(침투왕조)–효문제."]},
+ {tag:"사실 배열 + 인물형", q:"〔비수의 전투, 균전제 시행, 과거제 창설, 전연의 맹약, 정강의 변〕 (1) 발생 순 (2) 관련 인물 2명 〔사실–성명–왕조〕.",
+  a:["(1) 비수의 전투(383)→균전제(485)→과거제(587)→전연의 맹약(1004)→정강의 변(1126).",
+     "(2) 예: 비수의 전투–부견–전진 / 균전제–효문제–북위 / 과거제–수 문제(양견)–수 / 전연의 맹약–(진종)–북송 (이 중 2명)."]},
+ {tag:"사실 배열 + 인물형", q:"〔현무문의 변, 무주혁명, 안사의 난, 황소의 난, 왕안석 신법〕 (1) 발생 순 (2) 관련 인물 2명 〔사실–성명–왕조〕.",
+  a:["(1) 현무문의 변(626)→무주혁명(690)→안사의 난(755)→황소의 난(874)→왕안석 신법(1069).",
+     "(2) 예: 현무문의 변–이세민(태종)–당 / 무주혁명–측천무후–당(주) / 안사의 난–안녹산–당 / 왕안석 신법–왕안석–북송."]},
+ {tag:"서적형", q:"〔(1) 안씨가훈 (2) 대당서역기 (3) 자치통감 (4) 동경몽화록〕 편찬 당시 왕조를 밝히고, 두 책의 저자와 의미를 설명.",
+  a:["왕조: 안씨가훈=북제(~수), 대당서역기=당, 자치통감=북송, 동경몽화록=남송(북송 변경 회고).",
+     "· 안씨가훈–안지추: 가문 교육·처세를 담은 가훈서. 남북조 귀족사회의 생활·가치관을 보여 주는 사료.",
+     "· 대당서역기–현장: 인도 구법 견문, 서역·인도의 1급 사료, 당 문화의 국제성.",
+     "· (자치통감–사마광: 편년체 통사, 통치 교훈서) / (동경몽화록–맹원로: 북송 변경의 도시·서민 생활 회고)."]},
+ {tag:"서적형", q:"〔(1) 십육국춘추 (2) 정관정요 (3) 몽계필담 (4) 수시력〕 편찬 당시 왕조를 밝히고, 두 책의 저자와 의미를 설명.",
+  a:["왕조: 십육국춘추=북위(최홍), 정관정요=당(오긍), 몽계필담=북송(심괄), 수시력=원(곽수경).",
+     "· 정관정요–오긍: 당 태종 정관의 치 치적·문답을 정리. 후대 제왕의 통치 교과서.",
+     "· 몽계필담–심괄: 과학·기술·제도를 망라한 북송 필기. 활자·자침(나침반) 등 과학사 기록의 보고.",
+     "· (십육국춘추–최홍: 오호16국 역사서) / (수시력–곽수경: 이슬람 천문학 종합 역법)."]},
+ {tag:"역사지도 세기 판별형", map:"p8c", q:"아래 지도를 보고 (1) 몇 세기인지 밝히고 (2) 근거를 설명. 〔화북·강남 모두 당의 영역 / 서북에 토번·돌궐 / 동북에 발해〕",
+  a:["(1) 8세기(성당기, 8세기 전반).",
+     "(2) 당이 남북을 통일 지배(분단 없음)+발해(698~926) 존재+토번 전성·돌궐 재흥(682~). 안사의 난(755) 전 최대 판도 시기와 부합."]},
+ {tag:"역사지도 세기 판별형", map:"p11c", q:"아래 지도를 보고 (1) 몇 세기인지 밝히고 (2) 근거를 설명. 〔화북·강남=북송 / 북방=요 / 서북=서하 / 셋이 병존〕",
+  a:["(1) 11세기.",
+     "(2) 북송(960~1127)+요(916~1125)+서하(1038~)가 병존 → 금·몽골 미등장. 전연의 맹약(1004) 이후의 안정적 3국 병립."]},
+ {tag:"역사지도 세기 판별형", map:"p13e", q:"아래 지도를 보고 (1) 몇 세기인지 밝히고 (2) 판단 근거를 설명. 〔화북=금 / 강남=남송 / 서북=서하 / 몽골고원=몽골〕",
+  a:["(1) 13세기 초(약 1210~1220년대).",
+     "(2) 금·남송 병존(정강의 변 1126 이후)+서하 존속(1227 칭기즈칸 멸망 이전)+몽골 통일세력 등장(칭기즈칸 즉위 1206 이후). 세 단서가 겹치는 시기.",
+     "※ 요령: 요·북송·서하=11세기 / 금·남송·서하+몽골 부재=12세기 / +몽골 등장=13세기 초 / 원이 강남까지=13세기 말."]},
+ {tag:"역사지도 세기 판별형", map:"p13l", q:"아래 지도를 보고 (1) 몇 세기인지 밝히고 (2) 동아시아 외 국가 하나의 특성을 설명. 〔전 영역이 한 정권 / 서방에 4한국 표시〕",
+  a:["(1) 13세기 후반.",
+     "(2) 일한국: 훌레구가 세운 서아시아 정권. 아바스조를 무너뜨리고 페르시아·이라크 지배, 후에 이슬람 수용.",
+     "    또는 킵차크한국: 바투의 러시아·동유럽 지배(‘타타르의 멍에’)."]},
+ {tag:"개념 단답형", q:"다음을 간략히 설명하시오. (1) 침투왕조와 정복왕조의 차이 (2) 양세법과 조용조의 차이.",
+  a:["(1) 침투왕조: 서서히 들어와 화북에 거주하다 점차 동화(북위 등). 정복왕조: 갑자기 정복해 이중·이원성을 유지(요·금·원·청).",
+     "(2) 조용조: 균전제와 짝하는 인두세적 세역(성인 남자 기준, 곡물·노역·현물). 양세법: 안사의 난 후 재산(자산)을 기준으로 여름·가을 2회 화폐로 징수."]},
+ {tag:"개념 단답형", q:"다음을 간략히 설명하시오. (1) 관롱집단 (2) 책봉체제.",
+  a:["(1) 관롱집단: 서위·북주에서 형성된 호족 색채의 신귀족. 부병제와 함께 수·당 황실(양씨·이씨)로 이어진 지배집단.",
+     "(2) 책봉체제: 중국 황제가 주변국 군주에게 ‘책(冊)’으로 ‘봉(작위·영역)’함. 책봉국은 신(臣)을 칭하고 조공하며 정삭(正朔)을 받음 — 동아시아 국제질서."]},
+ {tag:"논술형 — 호한 융합", q:"위진남북조~수·당에 걸친 ‘호(胡)와 한(漢)의 융합’ 과정을 서론·본론·결론으로 논하시오.",
+  a:["서론: 호=북방 유목민, 한=농경 한족. 분열기에 양자가 충돌·공존하며 새 체제를 형성한 과정이 ‘호한 융합’.",
+     "본론① 오호16국: 유목민의 화북 진출, 무력 의존 호족정권의 난립·단명.",
+     "본론② 북위: 효문제의 한화정책(균전제·삼장제·낙양 천도·성씨 한화)으로 호족이 스스로 중국식 국가로 변신.",
+     "본론③ 서위·북주: 부병제·관롱집단 형성 → 호·한 갈등 해소형 ‘호한체제’.",
+     "본론④ 수·당: 관롱집단 출신 황실이 통일제국 건설, 개방적·국제적 문화.",
+     "결론: 호한 융합은 단순 동화가 아니라 쌍방향 결합으로, 분열을 넘어 수·당 세계제국의 역동성을 낳은 원동력."]},
+ {tag:"논술형 — 당송변혁", q:"‘당송변혁’의 내용과 의의를 서론·본론·결론으로 논하시오.",
+  a:["서론: 당송변혁=8세기 후반~10세기에 사회·경제·정치가 통째로 바뀐 큰 획기(나이토 고난의 시대구분론).",
+     "본론① 정치: 문벌귀족 몰락→사대부 등장, 군주독재 강화, 과거제(전시) 중시.",
+     "본론② 경제: 경제 중심 강남 이동(소호숙 천하족), 실물→화폐경제(지폐), 상업·도시 발달.",
+     "본론③ 사회: 서민 지위 강화, 장원제와 지주–전호 관계.",
+     "본론④ 출발점: 안사의 난으로 율령제 붕괴 → 양세법·번진 등 새 체제.",
+     "결론: ‘귀족의 시대’에서 ‘사대부·서민의 시대’로의 전환. 시대구분(고대→중세 vs 중세→근세) 논쟁의 핵심."]},
+];
+const ea=document.querySelector('#examArea');
+
+EXAM.forEach((ex,i)=>{
+  const c=el('div','qcard');
+  c.appendChild(el('div','qtype',`${i+1}. ${ex.tag}`));
+  c.appendChild(el('div','qtext',ex.q));
+  if(ex.map) c.appendChild(mapFigure(ex.map));
+  const btn=el('button','btn prim','모범답안 보기');
+  const ans=el('div','qfeed good'); ans.style.display='none';
+  ans.innerHTML='<b>모범답안</b><ul style="margin:.4em 0 0;padding-left:1.1em">'+ex.a.map(x=>`<li style="margin:.3em 0">${x}</li>`).join('')+'</ul>';
+  btn.addEventListener('click',()=>{const open=ans.style.display==='block';ans.style.display=open?'none':'block';btn.textContent=open?'모범답안 보기':'답안 접기'});
+  c.appendChild(btn); c.appendChild(ans);
+  ea.appendChild(c);
+});
+
+/* =================== 기출 답안 (실제 기출 IMG_9116·9117) =================== */
+const PAST=[
+ {tag:"기출 1 · 왕조 배열형", q:"3~14세기 〔후주, 동진, 당, 북송, 금, 진(陳), 북위, 남송〕 (1) 성립 순서 배열 (2) 공존 왕조 묶기 (3) (2) 중 강남 중심 왕조와 그 수도.",
+  a:["(1) 성립 순서: 동진(317) → 북위(386) → 진(陳, 557) → 당(618) → 후주(951) → 북송(960) → 금(1115) → 남송(1127).",
+     "(2) 공존 왕조: ① 〔동진·북위〕 — 동진(317~420)과 북위(386~534)는 386~420년 공존. ② 〔북송·금〕 — 북송(960~1127)과 금(1115~1234)은 1115~1127년 공존. ③ 〔금·남송〕 — 금과 남송(1127~1279)은 1127~1234년 공존.",
+     "    ※ 당·후주·진(陳)은 이 목록 안에서 공존 상대가 없다(진은 북제·북주와 공존했으나 목록에 없음).",
+     "(3) 강남 중심 왕조와 수도: ① 동진 — 건강(建康). ② 남송 — 임안(臨安, 항주). (진(陳)도 강남·건강이지만 (2)의 공존 그룹에 들지 않음.)",
+     "※ 핵심: ‘공존’과 ‘계승’ 구별. 북송→남송은 정강의 변(1126)으로 망한 뒤 이어진 계승."]},
+ {tag:"기출 2 · 종족 배열형", q:"〔돌궐, 당항, 여진, 유연, 몽골〕 — 중국사와 직접 관련된 주요 활약 시기가 이른 순서대로 재배열.",
+  a:["유연 → 돌궐 → 당항 → 여진 → 몽골.",
+     "· 유연: 5세기 몽골고원의 패자, 북위와 대립.",
+     "· 돌궐: 552년 유연을 멸하고 등장, 수·당과 관계.",
+     "· 당항(탕구트): 11세기 서하(1038/39) 건국.",
+     "· 여진: 12세기 금(1115) 건국.",
+     "· 몽골: 13세기 원(1271)."]},
+ {tag:"기출 3 · 사실 배열 + 인물형", q:"〔태시율령 반포, 양세법 시행, 여성 황제 출현, 문선 편찬, 근사록 편찬, 구품관인법 시행, 홍건군 봉기, 과거 호명법 실시〕 (1) 발생 순 배열 (2) 관련 인물 2명 〔사실–성명–활동 왕조〕.",
+  a:["(1) 발생 순서: 구품관인법(220) → 태시율령(268) → 문선(6세기 전반) → 양세법(780) → 여성 황제 출현=무주혁명(690)…",
+     "    ▶ 정확히: 구품관인법(220, 조위) → 태시율령(268, 서진) → 문선(530년대, 남조 양) → 여성 황제 출현(690, 당/주) → 양세법(780, 당) → 호명법(북송, 11세기) → 근사록(1175, 남송) → 홍건군(1351, 원).",
+     "(2) 관련 인물 〔사실–성명–활동 왕조〕 — 둘 택일:",
+     "    · 구품관인법 – 진군(陳群) – 위(魏)",
+     "    · 태시율령 – (진 무제) 사마염 – 서진",
+     "    · 문선 – 소통(蕭統, 소명태자) – 남조 양(梁)",
+     "    · 여성 황제(무주혁명) – 측천무후(則天武后) – 당(주, 周)",
+     "    · 양세법 – 양염(楊炎) – 당(唐)",
+     "    · 근사록 – 주희(朱熹)·여조겸 – 남송",
+     "    · 홍건군 – (백련교) 한산동·유복통 → 주원장 – 원(元)"]},
+ {tag:"기출 4 · 서적형", q:"〔(1) 오경정의 (2) 포박자 (3) 수시력 (4) 동경몽화록〕 (1) 편찬 당시 왕조를 모두 밝히고 (2) 두 책의 저자와 역사적 의미를 설명.",
+  a:["(1) 편찬 왕조: 오경정의=당, 포박자=동진, 수시력=원, 동경몽화록=남송(북송 멸망 후, 북송 변경을 회고).",
+     "(2) 두 책 — 저자·의미:",
+     "    · 오경정의 – 공영달(孔穎達): 당대 오경의 주석을 통일. 과거 명경과 시험 기준이 되어 유학을 ‘고정화’시킴(관학화).",
+     "    · 포박자 – 갈홍(葛洪): 동진의 도교 이론서. 신선·연단(鍊丹) 사상을 체계화한 도교 사상사의 핵심.",
+     "    · (수시력 – 곽수경: 이슬람 천문학을 종합한 원대 역법, 동서 교류의 산물.)",
+     "    · (동경몽화록 – 맹원로: 북송 수도 변경의 도시·서민 생활을 회고한 1급 사회사 자료.)"]},
+ {tag:"기출 5 · 종족 배열 + 인물형", q:"〔몽골, 유연, 선비, 돌궐, 여진〕 (1) 두드러진 활약 시기 순 배열 (2) 한 종족의 중요 인물 2명의 역사적 행적.",
+  a:["(1) 선비 → 유연 → 돌궐 → 여진 → 몽골.",
+     "(2) 인물 2명 (택일):",
+     "    · 선비 — 탁발규(도무제): 386 북위 건국·398 평성 천도 / 효문제: 균전제·낙양 천도·성씨 한화(탁발→元).",
+     "    · 여진 — 아구타(아골타): 1115 금 건국 / 세종(완안옹): 한화 속 여진 문화 유지, 40년 안정의 명군.",
+     "    · 몽골 — 칭기즈칸: 1206 몽골 통일·서방원정 / 쿠빌라이: 1271 大元 건국·1279 남송 멸망."]},
+ {tag:"기출 6 · 유라시아 지도 세기 판별형", map:"p13l", q:"제시된 유라시아사 지도가 (1) 몇 세기의 것인지 밝히고 (2) 동아시아 이외 지역의 국가 하나를 골라 역사적 특성을 설명. (아래는 동아시아 부분 도식)",
+  a:["판별 요령: ① 동아시아의 남북 분단(금·남송) 여부 ② 서하·요·금의 존속 여부 ③ 몽골 등장 여부 ④ 서방의 4한국(킵차크·차가타이·일·오고타이) 표시 여부.",
+     "예) 4한국이 표시되고 원이 화북~강남을 차지 → 13세기 후반.",
+     "(2) 동아시아 이외 국가 예시:",
+     "    · 킵차크한국(금장한국): 바투가 세운 러시아·동유럽 지배 정권. 러시아 제후를 간접 지배(‘타타르의 멍에’).",
+     "    · 일한국: 훌레구가 세운 서아시아 정권. 아바스조를 무너뜨리고 페르시아·이라크 지배, 후에 이슬람 수용.",
+     "    · 호레즘: 아무다리야 유역의 중앙아시아 강국, 칭기즈칸의 서방원정(1219)으로 멸망."]},
+ {tag:"기출 7 · 논술형 — 지배층(삼국~원)", q:"삼국시대부터 원까지 중국사를 이끈 지배층을 (1) 서론(개념) (2) 본론(시기별 변동, 구체적 사실 최대한) (3) 결론(특징)을 갖추어 논하시오.",
+  a:["서론: 지배층=정치권력·관직·토지를 장악해 사회를 이끈 집단. 충원 방식(추천/세습/시험)과 경제 기반(장원/관직)에 따라 성격이 변천.",
+     "본론① 위·진: 조위의 구품관인법(220)이 호족의 관직 독점 통로 → 문벌귀족 형성(‘상품무한문, 하품무세족’).",
+     "본론② 위진남북조: 남조 교양귀족·북조 호한 융합귀족. 북위 효문제 성족상정으로 가문 등급화.",
+     "본론③ 수·당: 과거제(587)로 신흥관료 등장하나 당 전기까지 문벌(관롱집단) 주류. 무주혁명(690)이 과거 출신 신흥계층 진출 촉진.",
+     "본론④ 당 후기~오대: 안사의 난·황소의 난으로 문벌귀족 몰락, 절도사·번진 무인세력 대두.",
+     "본론⑤ 송: 황제독재+문신관료제. 전시 정착으로 과거가 황제 직속화 → 사대부가 새 지배층, 성리학이 이념.",
+     "본론⑥ 요·금·원: 유목귀족층 지배. 원은 4등급제(몽골>색목인>한인>남인)로 한족 배제, 과거 폐지·약화.",
+     "결론: 문벌귀족(위진남북조) → 귀족·과거 병존(수·당) → 사대부(송) → 유목귀족(정복왕조). 큰 흐름은 ‘세습 문벌의 쇠퇴와 과거 관료의 부상’이며, 정복왕조기엔 종족적 신분제가 이를 역전·중단시켰다."]},
+ {tag:"기출 8 · 본인 보고서", q:"본인의 보고서에 대하여 〔제목 → 핵심 내용 → 가장 중요하게 여긴 사실과 그 이유 → 새로 알게 된 사실/중국사에서 갖는 의의 → 특별한 의미가 있었던 배움〕 순서로 설명하시오.",
+  a:["① 제목: 「구품관인법(九品官人法)은 호족 견제 수단이었는가, 호족과의 타협이었는가?」 (교재 제5장 〈북방민족의 이동과 남북조시대〉).",
+     "② 핵심 내용: 위 문제의식에서 출발해, 구품관인법이 처음부터 호족과의 ‘타협적 제도’였다고 결론. 향품(향리의 여론·가문·덕행)과 관품(중정이 향품에 근거해 부여)으로 구성된 이 제도의 성격을 교재 서술·논문·전문서로 검토.",
+     "③ 가장 중요하게 여긴 사실과 이유:",
+     "   · ‘황제의 묵인’ — 서진의 유의가 구품중정제의 8대 폐단을 들어 폐지를 청했고 위관·태위도 상소했으나, 진 무제는 옳다고 인정하면서도 끝내 시행하지 않았다.",
+     "   · 이유: 황제조차 호족의 반발이 두려워 그 특권을 보장하는 쪽으로 통치 안정을 꾀했다는 점이, ‘제도가 호족에게 종속됐다(타협)’는 결론을 가장 강하게 뒷받침하기 때문.",
+     "④ 새로 알게 된 사실·의의:",
+     "   · 교재의 ‘호족이 처음부터 제도를 기반으로 관직을 독점했다’는 서술은 ‘결과로 원인을 해석’한 면이 있음을 깨달음. 초기 구품중정제는 덕행·재능과 향리의 청의(집단 여론)를 반영했고, 관과 민 사이의 ‘사(士)’를 국가가 공인한 제도였다(하원수·조생군).",
+     "   · 향품과 관품이 일치하지 않은 것(미야자키 이치사다)은 향론 약화의 증거라기보다 고위직 정원 조절 등 현실적 이유 때문.",
+     "   · 의의: 구품관인법은 위진남북조 약 300년 ‘귀족(사족) 지배’의 법적 토대가 되었고, 수 과거제(587)로 최종 폐지됨 — 중국 지배층 변천(문벌귀족→사대부)의 출발점.",
+     "⑤ 특별했던 배움: AI가 ‘처음부터 타협의 산물’이라는 한 견해를 그럴듯하게 제시했지만, 논문·전문서(조생군·하원수·후지요시 마스미·미야자키 이치사다)와 대조하니 한 자료만으로 단정할 수 없는 복잡한 문제임을 체감. 자료를 교차 검증하고 토론해 스스로 논점을 세우는 과정 자체가 가장 큰 배움이었다.",
+     "※ 시험장 팁: 제목·결론(타협설)·핵심 근거 1개(황제의 묵인)·반론 처리(향품≠관품)·의의(귀족제 토대→과거제로 폐지)를 한 줄씩 외워 두면 어떤 형식으로 물어도 대응 가능."]},
+];
+const pa=document.querySelector('#pastArea');
+PAST.forEach((ex,i)=>{
+  const c=el('div','qcard');
+  c.appendChild(el('div','qtype',ex.tag));
+  c.appendChild(el('div','qtext',ex.q));
+  if(ex.map) c.appendChild(mapFigure(ex.map));
+  const btn=el('button','btn prim','답안 보기');
+  const ans=el('div','qfeed good'); ans.style.display='none';
+  ans.innerHTML='<b>모범답안</b><ul style="margin:.4em 0 0;padding-left:1.1em">'+ex.a.map(x=>`<li style="margin:.3em 0">${x}</li>`).join('')+'</ul>';
+  btn.addEventListener('click',()=>{const open=ans.style.display==='block';ans.style.display=open?'none':'block';btn.textContent=open?'답안 보기':'답안 접기'});
+  c.appendChild(btn); c.appendChild(ans);
+  pa.appendChild(c);
+});
+
+/* =================== 플래시카드 =================== */
+let cards=CARDS.slice(), ci=0;
+const flip=$('#flip');
+function renderCard(){
+  flip.classList.remove('flipped');
+  const c=cards[ci];
+  $('#fHz').textContent=c.hz;$('#fKo').textContent=c.ko;
+  $('#bKo').textContent=`${c.ko} (${c.hz})`;$('#bDef').textContent=c.def;$('#bEra').textContent=c.era;
+  $('#fCount').textContent=`${ci+1} / ${cards.length}`;
+}
+flip.addEventListener('click',()=>flip.classList.toggle('flipped'));
+$('#fNext').addEventListener('click',()=>{ci=(ci+1)%cards.length;renderCard()});
+$('#fPrev').addEventListener('click',()=>{ci=(ci-1+cards.length)%cards.length;renderCard()});
+$('#fShuffle').addEventListener('click',()=>{cards=shuffle(CARDS);ci=0;renderCard()});
+renderCard();
+</script>
+</body>
+</html>
