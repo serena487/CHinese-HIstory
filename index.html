@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>동아시아사 암기 — 새벽 6시 스프린트</title>
+<style>
+  :root{
+    --ink:#1a1410;        /* deep brown-black, like aged ink */
+    --paper:#ece3d2;      /* warm hanji paper */
+    --paper2:#e2d6bf;
+    --vermilion:#c0392b;  /* seal red */
+    --vermilion-d:#9c2a1f;
+    --jade:#3a6b5e;       /* celadon jade */
+    --gold:#b08433;
+    --muted:#6e6253;
+    --line:#c9bca3;
+    --shadow: rgba(40,28,16,.18);
+  }
+  *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
+  html,body{background:var(--paper);color:var(--ink);}
+  body{
+    font-family:"Pretendard","Apple SD Gothic Neo","Noto Sans KR",system-ui,sans-serif;
+    line-height:1.6;
+    background-image:
+      radial-gradient(circle at 12% 20%, rgba(176,132,51,.06), transparent 40%),
+      radial-gradient(circle at 85% 75%, rgba(58,107,94,.06), transparent 42%);
+    min-height:100vh;
+  }
+  .wrap{max-width:680px;margin:0 auto;padding:18px 16px 120px;}
+
+  /* ---- header ---- */
+  header{padding:22px 4px 14px;border-bottom:2px solid var(--ink);position:relative;}
+  .seal{
+    position:absolute;right:2px;top:14px;width:50px;height:50px;border-radius:8px;
+    background:var(--vermilion);color:var(--paper);display:flex;align-items:center;justify-content:center;
+    font-weight:800;font-size:13px;text-align:center;line-height:1.05;letter-spacing:1px;
+    box-shadow:0 2px 0 var(--vermilion-d);transform:rotate(-4deg);font-family:"Noto Serif KR",serif;
+  }
+  .kicker{font-size:11px;letter-spacing:3px;color:var(--vermilion-d);font-weight:700;text-transform:uppercase;}
+  h1{font-family:"Noto Serif KR",serif;font-size:27px;font-weight:800;margin-top:4px;letter-spacing:-.5px;}
+  .clock{margin-top:8px;font-size:13px;color:var(--muted);}
+  .clock b{color:var(--jade);font-variant-numeric:tabular-nums;}
+
+  /* ---- progress ---- */
+  .overall{margin-top:14px;height:7px;background:var(--paper2);border-radius:4px;overflow:hidden;border:1px solid var(--line);}
+  .overall span{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--jade),var(--gold));transition:width .4s ease;}
+
+  /* ---- tabs ---- */
+  nav{display:flex;gap:6px;margin:18px 0 8px;flex-wrap:wrap;}
+  nav button{
+    flex:1 1 auto;font-size:13px;font-weight:700;padding:9px 6px;border:1.5px solid var(--ink);
+    background:transparent;color:var(--ink);border-radius:2px;cursor:pointer;font-family:inherit;
+    transition:all .15s;white-space:nowrap;
+  }
+  nav button .n{display:block;font-size:10px;color:var(--muted);font-weight:600;margin-top:1px;}
+  nav button.on{background:var(--ink);color:var(--paper);}
+  nav button.on .n{color:var(--paper2);}
+
+  /* ---- mode toggle ---- */
+  .modebar{display:flex;align-items:center;gap:10px;margin:10px 2px 16px;flex-wrap:wrap;}
+  .modebar .lbl{font-size:12px;color:var(--muted);font-weight:700;}
+  .pill{display:inline-flex;border:1.5px solid var(--ink);border-radius:20px;overflow:hidden;}
+  .pill button{font-family:inherit;font-size:12px;font-weight:700;padding:6px 14px;border:none;background:transparent;color:var(--ink);cursor:pointer;}
+  .pill button.on{background:var(--vermilion);color:var(--paper);}
+  .secprog{margin-left:auto;font-size:12px;color:var(--muted);font-weight:700;font-variant-numeric:tabular-nums;}
+
+  /* ---- flashcards ---- */
+  .card{
+    background:var(--paper2);border:1px solid var(--line);border-left:5px solid var(--jade);
+    border-radius:4px;padding:16px 16px;margin-bottom:11px;box-shadow:0 1px 2px var(--shadow);
+    cursor:pointer;transition:transform .08s, box-shadow .15s;position:relative;
+  }
+  .card:active{transform:scale(.995);}
+  .card.done{border-left-color:var(--gold);opacity:.72;}
+  .card .q{font-weight:700;font-size:16px;font-family:"Noto Serif KR",serif;}
+  .card .a{
+    margin-top:0;max-height:0;overflow:hidden;color:var(--jade);font-size:15px;font-weight:600;
+    transition:max-height .25s ease, margin-top .25s ease;
+  }
+  .card.open .a{max-height:240px;margin-top:9px;padding-top:9px;border-top:1px dashed var(--line);}
+  .card .hint{position:absolute;right:13px;top:14px;font-size:11px;color:var(--muted);font-weight:700;}
+  .card.open .hint{display:none;}
+  .checkrow{display:flex;gap:8px;margin-top:11px;}
+  .checkrow button{
+    flex:1;font-family:inherit;font-size:12px;font-weight:700;padding:8px;border-radius:3px;cursor:pointer;border:1.5px solid;
+  }
+  .knew{border-color:var(--jade);background:transparent;color:var(--jade);}
+  .knew.sel{background:var(--jade);color:var(--paper);}
+  .again{border-color:var(--vermilion);background:transparent;color:var(--vermilion);}
+  .again.sel{background:var(--vermilion);color:var(--paper);}
+
+  /* ---- quiz (fill blank) ---- */
+  .quizcard{background:var(--paper2);border:1px solid var(--line);border-radius:4px;padding:16px;margin-bottom:11px;box-shadow:0 1px 2px var(--shadow);}
+  .quizcard .q{font-weight:700;font-size:16px;font-family:"Noto Serif KR",serif;margin-bottom:10px;}
+  .quizcard input{
+    width:100%;font-family:inherit;font-size:15px;padding:9px 11px;border:1.5px solid var(--line);
+    background:var(--paper);border-radius:3px;color:var(--ink);
+  }
+  .quizcard input:focus{outline:none;border-color:var(--jade);}
+  .quizcard .res{margin-top:9px;font-size:14px;font-weight:700;display:none;}
+  .quizcard.right .res{display:block;color:var(--jade);}
+  .quizcard.wrong .res{display:block;color:var(--vermilion);}
+  .qbtn{margin-top:9px;font-family:inherit;font-size:12px;font-weight:700;padding:7px 16px;border:1.5px solid var(--ink);background:var(--ink);color:var(--paper);border-radius:3px;cursor:pointer;}
+
+  /* ---- reading (서술형) ---- */
+  .essay{background:var(--paper2);border:1px solid var(--line);border-radius:4px;padding:16px 18px;margin-bottom:14px;box-shadow:0 1px 2px var(--shadow);}
+  .essay h3{font-family:"Noto Serif KR",serif;font-size:17px;color:var(--vermilion-d);margin-bottom:10px;padding-bottom:6px;border-bottom:1.5px solid var(--line);}
+  .essay .step{display:flex;gap:10px;margin-bottom:8px;font-size:14.5px;}
+  .essay .step b{color:var(--jade);flex-shrink:0;font-family:"Noto Serif KR",serif;}
+  .essay .arrow{text-align:center;color:var(--gold);font-weight:800;margin:10px 0;font-size:15px;}
+
+  /* ---- century decision tree ---- */
+  .tree{background:var(--ink);color:var(--paper);border-radius:6px;padding:18px;margin-bottom:14px;}
+  .tree h3{font-family:"Noto Serif KR",serif;color:var(--gold);margin-bottom:12px;font-size:16px;}
+  .branch{padding:9px 12px;background:rgba(255,255,255,.06);border-left:3px solid var(--vermilion);border-radius:0 4px 4px 0;margin-bottom:8px;font-size:14px;}
+  .branch b{color:var(--gold);}
+
+  footer{position:fixed;bottom:0;left:0;right:0;background:var(--ink);color:var(--paper);padding:11px 16px;display:flex;justify-content:space-between;align-items:center;z-index:20;}
+  footer .stat{font-size:12.5px;font-weight:700;font-variant-numeric:tabular-nums;}
+  footer .stat span{color:var(--gold);}
+  footer button{font-family:inherit;font-size:12px;font-weight:700;padding:7px 14px;border:1.5px solid var(--paper);background:transparent;color:var(--paper);border-radius:3px;cursor:pointer;}
+
+  .empty{text-align:center;color:var(--muted);padding:40px 20px;font-size:14px;}
+  .tip{font-size:12px;color:var(--muted);margin:2px 2px 14px;font-style:italic;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="seal">史<br>暗記</div>
+    <div class="kicker">동아시아사 기말 스프린트</div>
+    <h1>위진남북조 → 송·원 암기</h1>
+    <div class="clock">목표: 정오까지 · 남은 시간 <b id="remain">—</b></div>
+    <div class="overall"><span id="overallBar"></span></div>
+  </header>
+
+  <nav id="tabs"></nav>
+  <div class="tip" id="tip"></div>
+
+  <div class="modebar" id="modebar" style="display:none">
+    <span class="lbl">방식</span>
+    <div class="pill">
+      <button data-m="flip" class="on">플래시카드</button>
+      <button data-m="quiz">빈칸 채우기</button>
+    </div>
+    <span class="secprog" id="secprog"></span>
+  </div>
+
+  <div id="content"></div>
+</div>
+
+<footer>
+  <div class="stat">외운 카드 <span id="doneCount">0</span> / <span id="totalCount">0</span></div>
+  <button id="resetBtn">진도 초기화</button>
+</footer>
+
+<script>
+/* ============== DATA ============== */
+const DATA = {
+  people: {
+    label:"인물·업적", n:"1:1 매칭",
+    tip:"제일 빨리 까먹는 영역. 먼저, 그리고 반복해서.",
+    cards:[
+      ["둔전제","위나라 조조"],
+      ["구품관인법","위 진군"],
+      ["태시율령","서진 사마염"],
+      ["비수의 전투","전진 부견"],
+      ["균전제","북위 효문제"],
+      ["한화 정책","북위 효문제"],
+      ["문선 편찬","남조 양 소통"],
+      ["과거제 정착","수 문제"],
+      ["대운하 완성","수 문제"],
+      ["현무문의 변","당 태종"],
+      ["정관의 치","당 태종"],
+      ["여성 황제","당 측천무후"],
+      ["안사의 난","당 안녹산"],
+      ["양세법","당 양염"],
+      ["황소의 난","당 황소"],
+      ["전연의 맹약","북송 진종"],
+      ["왕안석 신법","북송 왕안석"],
+      ["정강의 변","북송"],
+      ["근사록","남송 주희 & 여조겸"],
+      ["홍건군 봉기","원 한산동 & 유복통"],
+    ]
+  },
+  founders:{
+    label:"건국·정복", n:"왕조·군주",
+    tip:"정복왕조(이중성 유지) vs 침투왕조(점차 동화) 구분이 핵심.",
+    cards:[
+      ["거란(요) 건국·발해 멸망","야율아보기 (거란 통일)"],
+      ["서요(카라키타이) 건국","야율대석"],
+      ["돌궐 건국·유연 격파","부민 가한"],
+      ["당 태종에 패배, 천가한 칭호 부여","힐리가한"],
+      ["북위 건국","탁발규"],
+      ["균전제·낙양 천도·한화정책","효문제"],
+      ["여진(금) 건국","아구타"],
+      ["몽골(원)","쿠빌라이"],
+      ["정복왕조 (이중·이원성 유지)","거란(요)·여진(금)·몽골(원)"],
+      ["침투왕조 (서서히 동화)","선비(북위) — 효문제"],
+      ["일한국 (아바스조 멸망, 페르시아·이라크)","훌레구"],
+      ["킵차크한국 (러시아·동유럽, '타타르의 멍에')","바투"],
+    ]
+  },
+  books:{
+    label:"서적", n:"저자·내용",
+    tip:"저자 + 시대 + 한 줄 특징을 세트로. 12권.",
+    cards:[
+      ["포박자","동진 갈홍 — 도교 이론서, 신선 사상 체계화"],
+      ["십육국춘추","북위 최홍 — 오호 16국 역사서"],
+      ["문선","남조 양 소통 — 최고의 시문 선집, 위진남북조 문학 자각"],
+      ["안씨가훈","수 안지추 — 가훈서, 남북조 귀족사회 생활·가치관 사료"],
+      ["대당서역기","당 현장 — 인도 구법 견문서, 당문화의 국제성"],
+      ["오경정의","당 공영달 — 오경 주석 통일, 명경과 기준, 유학 관학화"],
+      ["정관정요","당 오긍 — 정관의 치 정리, 동아시아 군주 통치 지침서"],
+      ["자치통감","북송 사마광 — 최초의 편년체 통사, 정치 교훈서"],
+      ["몽계필담","북송 심괄 — 과학·기술·제도 망라한 북송 필기"],
+      ["근사록","남송 주희 — 북송 도학 발췌, 성리학 입문서"],
+      ["동경몽화록","남송 맹원로 — 북송 수도 회고한 사회 사료"],
+      ["수시력","원 곽수경 — 이슬람 천문학 종합 역법서, 동서 교류"],
+    ]
+  },
+  terms:{
+    label:"개념·제도", n:"용어 정의",
+    tip:"조용조 vs 양세법 대비, 관롱집단·책봉체제 핵심.",
+    cards:[
+      ["조용조","균전제와 짝하는 인두세적 세역 (성인 남자 기준, 곡물·노역·현물)"],
+      ["양세법","안사의 난 후 재산(자산) 기준, 여름·가을 2회 화폐 징수"],
+      ["관롱집단","서위·북주에서 형성된 호족 색채 신귀족. 부병제와 함께 수·당 황실(양씨·이씨)로 이어진 지배집단"],
+      ["책봉체제","중국 황제가 주변국 군주를 책봉. 책봉국은 칭신·조공하고 정삭을 받는 동아시아 국제질서"],
+    ]
+  },
+  dynasty:{
+    label:"왕조·세기", n:"연대·공존",
+    tip:"공존 관계와 세기 판별 흐름. 서술형에 직결.",
+    cards:[
+      ["동진·전진·북위 공존 기간","약 400년"],
+      ["계승 관계","서진→동진, 북송→남송"],
+      ["강남 중심 왕조 (건강)","동진·진·(유)송"],
+      ["남송의 수도","임안(항주)"],
+      ["화북 중심 왕조","전진·북위·후량·금·원"],
+      ["전진의 수도","장안"],
+      ["북위의 수도","낙양"],
+      ["후량의 수도","개봉"],
+      ["원의 수도","연경"],
+      ["8세기 판별","당이 남북 통일 + 발해(698~926) + 토번 전성·돌궐"],
+      ["11세기 판별","북송(960~1127) + 요(916~1125) + 서하(1038~) 병존"],
+      ["12세기 이후 판별","남북 갈라짐 + 화북=금"],
+      ["13세기 초 판별","몽골 등장"],
+      ["13세기 후반 판별","원으로 통합 + 4한국"],
+    ]
+  },
+  essays:{
+    label:"서술형", n:"논점 흐름",
+    tip:"키워드만 외우고 흐름으로 복원. 읽기 전용.",
+    reading:true
+  }
+};
+
+const ESSAYS = [
+  {
+    title:"지배층의 변천",
+    intro:"지배층 = 정치권력·관직·토지를 장악해 사회를 이끈 집단. 충원 방식(추천/세습/시험)과 경제 기반(장원/관직)에 따라 성격 변천.",
+    steps:[
+      ["위·진","조위 구품관인법(220)이 호족의 관직 독점 통로 → 문벌귀족 형성 ('상품무한문, 하품무세족')"],
+      ["위진남북조","남조 교양귀족·북조 호한 융합귀족. 북위 효문제 성족상정으로 가문 등급화"],
+      ["수·당","과거제(587)로 신흥관료 등장하나 당 전기까지 문벌(관롱집단) 주류. 무주혁명(690)이 신흥계층 진출 촉진"],
+      ["당 후기~오대","안사의 난·황소의 난으로 문벌귀족 몰락, 절도사·번진 무인세력 대두"],
+      ["송","황제독재 + 문신관료제. 전시 정착으로 과거 황제 직속화 → 사대부가 새 지배층, 성리학이 이념"],
+      ["요·금·원","유목귀족층 지배. 원은 4등급제(몽골>색목인>한인>남인), 과거 폐지·약화"],
+    ],
+    concl:"문벌귀족(위진남북조) → 귀족·과거 병존(수·당) → 사대부(송) → 유목귀족(정복왕조). 큰 흐름은 '세습 문벌의 쇠퇴와 과거 관료의 부상', 정복왕조기엔 종족적 신분제가 이를 역전·중단."
+  },
+  {
+    title:"당송변혁",
+    intro:"당송변혁 = 8세기 후반~10세기에 사회·경제·정치가 통째로 바뀐 큰 획기 (나이토 고난의 시대구분론).",
+    steps:[
+      ["정치","문벌귀족 몰락 → 사대부 등장, 군주독재 강화, 과거제(전시) 중시"],
+      ["경제","경제 중심 강남 이동(소호숙 천하족), 실물→화폐경제(지폐), 상업·도시 발달"],
+      ["사회","서민 지위 강화, 장원제와 지주–전호 관계"],
+      ["출발점","안사의 난으로 율령제 붕괴 → 양세법·번진 등 새 체제"],
+    ],
+    concl:"'귀족의 시대'에서 '사대부·서민의 시대'로의 전환. 시대구분(고대→중세 vs 중세→근세) 논쟁의 핵심."
+  },
+  {
+    title:"구품관인법 — 견제인가 타협인가",
+    intro:"문제의식: 구품관인법은 호족 견제 수단이었나, 호족과의 타협이었나? 결론은 '처음부터 타협적 제도'. 향품(여론·가문·덕행) + 관품(중정이 향품 근거로 부여)으로 구성.",
+    steps:[
+      ["핵심 근거","'황제의 묵인' — 서진 유의가 8대 폐단으로 폐지 청했으나, 진 무제는 옳다 인정하면서도 끝내 시행 안 함"],
+      ["이유","황제조차 호족 반발이 두려워 특권 보장으로 통치 안정 도모 → '제도가 호족에 종속(타협)'을 뒷받침"],
+      ["새 발견","초기 구품중정제는 덕행·재능·향리 청의 반영, 관·민 사이 '사(士)'를 국가가 공인 (하원수·조생군)"],
+      ["향품≠관품","향론 약화 증거 아니라 고위직 정원 조절 등 현실적 이유 (미야자키 이치사다)"],
+      ["의의","위진남북조 약 300년 '사족 지배'의 법적 토대 → 수 과거제(587)로 폐지. 지배층 변천(문벌→사대부)의 출발점"],
+    ],
+    concl:"AI가 '타협의 산물'을 그럴듯하게 제시했으나, 논문·전문서(조생군·하원수·후지요시 마스미·미야자키 이치사다)와 대조하니 한 자료로 단정 못 할 복잡한 문제. 교차 검증·토론으로 스스로 논점 세우는 과정이 가장 큰 배움."
+  }
+];
+
+/* ============== STATE ============== */
+const KEYS = Object.keys(DATA);
+let active = "people";
+let mode = "flip";
+let done = {};            // "people-3": true
+let qresult = {};         // quiz pass
+
+function totalCards(){
+  let t=0; KEYS.forEach(k=>{ if(DATA[k].cards) t+=DATA[k].cards.length; });
+  return t;
+}
+function doneCount(){ return Object.keys(done).filter(k=>done[k]).length; }
+
+/* ============== RENDER ============== */
+const tabsEl=document.getElementById('tabs');
+const contentEl=document.getElementById('content');
+const modebar=document.getElementById('modebar');
+
+function renderTabs(){
+  tabsEl.innerHTML='';
+  KEYS.forEach(k=>{
+    const b=document.createElement('button');
+    b.className = k===active?'on':'';
+    b.innerHTML = DATA[k].label + '<span class="n">'+DATA[k].n+'</span>';
+    b.onclick=()=>{active=k; if(DATA[k].reading) mode='read'; else if(mode==='read') mode='flip'; render();};
+    tabsEl.appendChild(b);
+  });
+}
+
+function shuffle(a){a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+
+function render(){
+  renderTabs();
+  document.getElementById('tip').textContent = DATA[active].tip||'';
+  const d=DATA[active];
+
+  if(d.reading){
+    modebar.style.display='none';
+    renderEssays();
+  } else {
+    modebar.style.display='flex';
+    document.querySelectorAll('.pill button').forEach(b=>b.classList.toggle('on', b.dataset.m===mode));
+    const total=d.cards.length;
+    const dn=d.cards.filter((_,i)=>done[active+'-'+i]).length;
+    document.getElementById('secprog').textContent = dn+' / '+total+' 완료';
+    if(mode==='flip') renderFlip(); else renderQuiz();
+  }
+  updateFooter();
+}
+
+function renderFlip(){
+  const d=DATA[active];
+  contentEl.innerHTML='';
+  d.cards.forEach((c,i)=>{
+    const id=active+'-'+i;
+    const el=document.createElement('div');
+    el.className='card'+(done[id]?' done':'');
+    el.innerHTML=`<span class="hint">탭하면 정답</span>
+      <div class="q">${c[0]}</div>
+      <div class="a">${c[1]}</div>`;
+    const check=document.createElement('div');
+    check.className='checkrow';check.style.display='none';
+    check.innerHTML=`<button class="knew${done[id]?' sel':''}">외웠다</button><button class="again">다시</button>`;
+    el.appendChild(check);
+    el.onclick=(e)=>{
+      if(e.target.tagName==='BUTTON')return;
+      el.classList.toggle('open');
+      check.style.display=el.classList.contains('open')?'flex':'none';
+    };
+    check.children[0].onclick=()=>{done[id]=true;save();render();};
+    check.children[1].onclick=()=>{done[id]=false;save();render();};
+    contentEl.appendChild(el);
+  });
+}
+
+function norm(s){return s.replace(/\s+/g,'').replace(/[·,&()]/g,'').toLowerCase();}
+
+function renderQuiz(){
+  const d=DATA[active];
+  contentEl.innerHTML='';
+  d.cards.forEach((c,i)=>{
+    const id=active+'-'+i;
+    const el=document.createElement('div');
+    el.className='quizcard';
+    el.innerHTML=`<div class="q">${c[0]}</div>
+      <input type="text" placeholder="정답 입력 (핵심 키워드)" autocomplete="off">
+      <div><button class="qbtn">확인</button></div>
+      <div class="res"></div>`;
+    const input=el.querySelector('input');
+    const res=el.querySelector('.res');
+    const check=()=>{
+      const ans=c[1];
+      const ok = norm(input.value).length>1 && norm(ans).includes(norm(input.value));
+      el.classList.remove('right','wrong');
+      el.classList.add(ok?'right':'wrong');
+      res.textContent = ok ? '✓ 정답: '+ans : '✗ 정답: '+ans;
+      if(ok){done[id]=true;save();updateFooter();}
+    };
+    el.querySelector('.qbtn').onclick=check;
+    input.onkeydown=(e)=>{if(e.key==='Enter')check();};
+    contentEl.appendChild(el);
+  });
+}
+
+function renderEssays(){
+  contentEl.innerHTML='';
+  // century decision tree first
+  const tree=document.createElement('div');
+  tree.className='tree';
+  tree.innerHTML=`<h3>⚡ 세기 판별 흐름</h3>
+    <div class="branch"><b>남북이 갈라졌나?</b> → 아니오면 11세기, 예면 12세기 이후</div>
+    <div class="branch"><b>화북이 요냐 금이냐?</b> → 요=11세기, 금=12세기 이후</div>
+    <div class="branch"><b>몽골이 있나?</b> → 없으면 12세기, 있으면 13세기 초</div>
+    <div class="branch"><b>원 통합 + 4한국 보이나?</b> → 보이면 13세기 후반</div>`;
+  contentEl.appendChild(tree);
+
+  ESSAYS.forEach(e=>{
+    const el=document.createElement('div');
+    el.className='essay';
+    let html=`<h3>${e.title}</h3><div class="step"><b>서론</b><span>${e.intro}</span></div>`;
+    e.steps.forEach(s=>{ html+=`<div class="step"><b>${s[0]}</b><span>${s[1]}</span></div>`; });
+    html+=`<div class="arrow">↓</div><div class="step"><b>결론</b><span>${e.concl}</span></div>`;
+    el.innerHTML=html;
+    contentEl.appendChild(el);
+  });
+}
+
+/* ============== FOOTER / PROGRESS ============== */
+function updateFooter(){
+  const dc=doneCount(), tc=totalCards();
+  document.getElementById('doneCount').textContent=dc;
+  document.getElementById('totalCount').textContent=tc;
+  document.getElementById('overallBar').style.width=(tc?Math.round(dc/tc*100):0)+'%';
+}
+
+/* ============== COUNTDOWN ============== */
+function tick(){
+  const now=new Date();
+  const noon=new Date(now); noon.setHours(12,0,0,0);
+  let diff=noon-now;
+  const el=document.getElementById('remain');
+  if(diff<=0){el.textContent='시간 종료';return;}
+  const h=Math.floor(diff/3600000), m=Math.floor(diff%3600000/60000), s=Math.floor(diff%60000/1000);
+  el.textContent=`${h}시간 ${String(m).padStart(2,'0')}분 ${String(s).padStart(2,'0')}초`;
+}
+setInterval(tick,1000); tick();
+
+/* ============== PERSIST (in-memory only) ============== */
+function save(){ /* in-memory; resets on reload by design */ }
+document.getElementById('resetBtn').onclick=()=>{
+  if(confirm('외운 카드 진도를 모두 초기화할까요?')){done={};qresult={};render();}
+};
+
+/* mode toggle */
+document.querySelectorAll('.pill button').forEach(b=>{
+  b.onclick=()=>{mode=b.dataset.m;render();};
+});
+
+render();
+</script>
+</body>
+</html>
